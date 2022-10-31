@@ -1,12 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client'
 import './index.css';
+
 import Login from './loginComponent/login';
 import POS from './posComponent/main';
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <div className='App'>
@@ -16,6 +20,5 @@ ReactDOM.render(
           </Routes>
       </div>
     </BrowserRouter>
-  </React.StrictMode>, 
-  document.getElementById('root')
+  </React.StrictMode>
 )

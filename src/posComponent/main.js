@@ -1,16 +1,39 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
 
-export default class POS extends React.Component {
+
+//IF WE WANT TO GO TO ANOTHER PAGE, WE USE LINK
+//import { Link } from 'react-router-dom';
+
+class POS extends React.Component {
     render(){
         return (
-            <div>
-                <h1>Pagina principal</h1>
-                <Link to="/">Ir a login</Link>
-                <div>
-                    <p>Hola mundo jiji</p>
-                </div>
+            <ProductsComponent />
+        );
+    }
+}
+
+
+//CLASS TO HANDLE THE RETRIEVING PRODUCTS FROM THE BARCODE
+class ProductsComponent extends React.Component{
+    keyPressed(e){
+        if(e.keyCode == 13){
+            console.log("value: ", e.target.value)
+        }
+    }
+
+    render(){
+        return (
+            <div className='productsHeader'>
+                <TextField 
+                    id="barcode_tosubtotal" 
+                    label="Codigo de barras" 
+                    variant="outlined"
+                    onKeyDown={this.keyPressed}>
+                </TextField>
             </div>
         );
     }
 }
+
+export default POS;
