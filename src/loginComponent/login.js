@@ -1,17 +1,20 @@
-import { React } from "react";
-
+import React from "react";
 import { Link } from "react-router-dom";
 
-const electron = window.require('electron');
-const ipcRenderer = electron.ipcRenderer;
-
-
 export default class Login extends React.Component {
+  load(){
+    window.api.send('provider:load');
+
+    window.api.receive('provider:get', (data) => {
+      console.log(data)
+    });
+  }
   
   render(){
     return(
       <div>
-        <button onClick={this.load}>Carga sabritas</button>
+        <h1>Hola mundo</h1>
+        <button onClick={this.load}>Load sabritas</button>
         <Link to="/pos">Ir a main</Link>
       </div>
     );
