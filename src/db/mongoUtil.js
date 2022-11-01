@@ -13,8 +13,6 @@ const connectDB = () => {
 
 const getDB = () => _db;
 
-const getCollection = (name) => _db.collection(name);
+const getCollection = (name) => _db.collection(name)
 
 module.exports = {connectDB, getDB, getCollection};
-
-
