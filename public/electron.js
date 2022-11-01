@@ -1,31 +1,11 @@
 const path = require('path')
 const  url  = require('url')
 
-const { app, BrowserWindow } = require('electron')
-const { MongoClient } = require("mongodb")
+const { app, BrowserWindow, ipcMain } = require('electron')
 
+const MongoDB = require('../src/db/mongoUtil')
 
-// Replace the uri string with your connection string.
-const uri = "mongodb+srv://adrianadame01:lambda-2022@cluster0.6mok6gs.mongodb.net/?retryWrites=true&w=majority";
-
-const client = new MongoClient(uri);
-
-/*
-//TEST FOR MONGODB CONNECTION
-async function run() {
-    try {
-      const database = client.db('papeleria-pincelin');
-      const providers = database.collection('proveedores');
-      const query = { nombre: 'Irvin' };
-      const provider = await movies.findOne(query);
-      console.log(provider);
-    } finally {
-      // Ensures that the client will close when you finish/error
-      await client.close();
-    }
-}
-run().catch(console.dir);
-*/
+MongoDB.connectDB();
 
 let mainWindow;
 
@@ -47,7 +27,7 @@ function createWindow() {
     //Load the first html of the application
     mainWindow.loadURL(startURL);
 
-    mainWindow.webContents.openDevTools({mode: 'detach'})
+    mainWindow.webContents.openDevTools()
 
     mainWindow.on('closed', () =>{
         mainWindow = null;
@@ -67,3 +47,22 @@ app.on('activate',() =>{
         createWindow();
     }
 });
+
+
+//EXAMPLE OF LOAD WITH MONGODB
+ipcMain.on('provider:load', getSabritasProvider)
+
+
+//EXAMPLE OF ASYNC FUNCTION TO RETRIEVE DATA FROM MONGODB
+async function getSabritasProvider(){
+    try{
+        var database = MongoDB.getDB();
+        var providers = database.collection('providers');
+
+        const res = await providers.findOne({name: 'Sabritas'})
+
+        mainWindow.webContents.send('provider:get', JSON.stringify(res))
+    } catch (err) {
+        console.log(err)
+    }
+}
