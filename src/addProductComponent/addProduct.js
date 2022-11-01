@@ -23,6 +23,8 @@ const AddProduct = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        window.api.send('product:searchOne',product.name);
+
         const formData = new FormData();
         formData.append('name', product.name);
         formData.append('category', product.category);
@@ -32,7 +34,22 @@ const AddProduct = () => {
         formData.append('priceUnit', product.priceUnit);
         formData.append('price', product.price);
 
-        saveProduct()
+        window.api.receive('product:get', (data) => {
+            const data2 = JSON.parse(data);
+            if(data2){
+                console.log("Producto ya registrado")
+            } else {
+                window.api.send('product:add', formData);
+                window.api.receive('product:get', (data) => {
+                    const data2 = JSON.parse(data);
+                    if(data2){
+                        console.log("El producto se registro correctamente")
+                    } else {
+                        console.log("Error al registrar el producto")
+                    }
+                });
+            }
+        });
     };
 
     return(
