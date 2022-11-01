@@ -53,8 +53,14 @@ app.on('activate',() =>{
     }
 });
 
-ipcMain.on('products:load', async (e, productName) => {
+ipcMain.on('products:searchOne', async (e, productName) => {
     products = MongoDB.getCollection('products')
     p = await Products.findOneProductByName(products, productName)
+    mainWindow.webContents.send('products:get', JSON.stringify(p))
+})
+
+ipcMain.on('products:add', async (e, listing) => {
+    products = MongoDB.getCollection('products')
+    p = await Products.insertOneProduct(products, listing)
     mainWindow.webContents.send('products:get', JSON.stringify(p))
 })
