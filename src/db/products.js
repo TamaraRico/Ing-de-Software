@@ -1,4 +1,4 @@
-const objectId = requiere('mongodb').ObjectId
+const objectId = require('mongodb').ObjectId
 
 //Agrega un solo producto
 const insertOneProduct = async (products, newListing) => {

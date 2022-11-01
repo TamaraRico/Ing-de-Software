@@ -54,13 +54,13 @@ app.on('activate',() =>{
 });
 
 ipcMain.on('products:searchOne', async (e, productName) => {
-    products = MongoDB.getCollection('products')
-    p = await Products.findOneProductByName(products, productName)
+    var products = MongoDB.getCollection('products')
+    var p = await Products.findOneProductByName(products, productName)
     mainWindow.webContents.send('products:get', JSON.stringify(p))
 })
 
 ipcMain.on('products:add', async (e, listing) => {
-    products = MongoDB.getCollection('products')
-    p = await Products.insertOneProduct(products, listing)
+    var products = MongoDB.getCollection('products')
+    var p = await Products.insertOneProduct(products, listing)
     mainWindow.webContents.send('products:get', JSON.stringify(p))
 })
