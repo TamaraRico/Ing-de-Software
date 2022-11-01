@@ -3,7 +3,7 @@ const  url  = require('url')
 
 const { app, BrowserWindow, ipcMain } = require('electron')
 
-const MongoDB = require('../src/db/mongoUtil')
+const MongoDB = require('../src/db/mongoUtil');
 
 MongoDB.connectDB();
 
@@ -15,6 +15,10 @@ function createWindow() {
         height : 600,
         webPreferences: {
             nodeIntegration : true,
+            contextIsolation: true,
+            enableRemoteModule: false,
+            devTools: true,
+            preload: path.join(__dirname, "/preload.js")
         }
     })
 
@@ -27,7 +31,7 @@ function createWindow() {
     //Load the first html of the application
     mainWindow.loadURL(startURL);
 
-    mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools({mode: 'detach'})
 
     mainWindow.on('closed', () =>{
         mainWindow = null;
@@ -47,7 +51,6 @@ app.on('activate',() =>{
         createWindow();
     }
 });
-
 
 //EXAMPLE OF LOAD WITH MONGODB
 ipcMain.on('provider:load', getSabritasProvider)
