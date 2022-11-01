@@ -1,22 +1,65 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default class Login extends React.Component {
-  load(){
-    window.api.send('provider:load');
+class Login extends React.Component {
+  render() {
+    return(<div>
+        <div>
+          <h1>Usuario</h1>
+        </div>
+        <div>
+          <input type="text" id ="username"/>
+        </div>
+        <div>
+          <h1>Contrasena</h1>
+        </div>
+        <div>
+          <input type="password" id ="password"/>
+        </div>
+        {/* <Link to="/pos">Ir a main</Link> */}
+        <button  onClick={() =>{
+          var user = document.getElementById("username").value;
+          var pass = document.getElementById("password").value;
+          if((user != '') && (pass != '')) {
+            window.api.send('user:load',user);
 
-    window.api.receive('provider:get', (data) => {
-      console.log(data)
-    });
-  }
-  
-  render(){
-    return(
-      <div>
-        <h1>Hola mundo</h1>
-        <button onClick={this.load}>Load sabritas</button>
-        <Link to="/pos">Ir a main</Link>
+            window.api.receive('user:get', (data) => {
+              const data2 = JSON.parse(data);
+              if(data2.password == pass){
+                if(data2.role == 'administrator'){
+                } else {
+                  window.location.pathname = "/pos";
+                }
+              } else {
+                console.log("Error")
+              }
+            });
+          }
+        }}  >Iniciar Sesion</button>
       </div>
     );
   }
+
+  // validate(){
+  //   var user = document.getElementById("username").value;
+  //   var pass = document.getElementById("password").value;
+  //   if((user != '') && (pass != '')) {
+  //     window.api.send('user:load',user);
+
+  //     window.api.receive('user:get', (data) => {
+  //       const data2 = JSON.parse(data);
+  //       if(data2.password == pass){
+  //         if(data2.role == 'administrator'){
+            
+  //         } else {
+            
+  //         }
+  //       } else {
+  //         console.log("Error")
+  //       }
+  //     });
+  //   }
+  // }
 }
+
+export default (Login);

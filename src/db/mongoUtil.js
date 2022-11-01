@@ -8,8 +8,13 @@ const connectDB = () => {
     const client = new MongoClient(uri);
 
     _db = client.db('papeleria-pincelin')
+    console.log("Create Connection");
 }
 
 const getDB = () => _db;
 
-module.exports = {connectDB, getDB};
+const getCollection = (name) => _db.collection(name);
+
+module.exports = {connectDB, getDB, getCollection};
+
+
