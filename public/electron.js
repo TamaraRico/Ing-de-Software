@@ -32,7 +32,6 @@ function createWindow() {
     mainWindow.loadURL(startURL);
 
     mainWindow.webContents.openDevTools({mode: 'detach'})
-
     mainWindow.on('closed', () =>{
         mainWindow = null;
     });
@@ -69,3 +68,47 @@ async function getSabritasProvider(){
         console.log(err)
     }
 }
+
+
+//--------  INICIO CONSULTAS DE IRVIN :) ------------
+ipcMain.on('products:fetch', getProducts)
+async function getProducts(){
+    try{
+        var database = MongoDB.getDB();
+        var products = database.collection('products');
+
+        const res = await products.find({})
+
+        //Chocomaniobra para que me lleguen los datos como quiero xd
+        var aux = []
+        while(await res.hasNext()) {
+            const doc = await res.next();
+            aux.push(doc)
+        }
+        console.log(aux)
+        mainWindow.webContents.send('products:fetch', aux)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+ipcMain.on('providers:fetch', getProviders)
+async function getProviders(){
+    try{
+        var database = MongoDB.getDB();
+        var providers = database.collection('providers');
+        const res = await providers.find({})
+        
+        //Chocomaniobra para que me lleguen los datos como quiero xd
+        var aux = []
+        while(await res.hasNext()) {
+            const doc = await res.next();
+            aux.push(doc)
+        }
+        console.log(aux)
+        mainWindow.webContents.send('providers:fetch', aux)
+    } catch (err) {
+        console.log(err)
+    }
+}
+//--------  FIN CONSULTAS DE IRVIN :) ------------
