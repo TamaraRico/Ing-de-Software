@@ -15,15 +15,17 @@ const insertMultipleProducts = async (newListing) => {
     try{
         const res = await products.insertMany(newListings);
         console.log(`${res.insertedCount} new listings created with the following id(s): `);
-        console.log(res.insertedIds);
+        /*console.log(res.insertedIds);*/
     } catch (err) {
         console.log(err)
     }
 }
 
 //Buscar un producto por nombre
-const findOneProductByName = async (nameOfProduct) => {
+const findOneProductByName = async (MongoDB, nameOfProduct) => {
     try{
+        var database = MongoDB.getDB();
+        var products = database.collection('products');
         const product = await products.findOne({name: nameOfProduct})
         if(product){
             console.log(`Found a listing in the collection with the name '${nameOfProduct}'`);
