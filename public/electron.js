@@ -4,6 +4,7 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 
 const MongoDB = require('../src/db/mongoUtil');
 const Users = require('../src/db/users');
+const Products = require('../src/db/products')
 
 MongoDB.connectDB();
 
@@ -64,11 +65,11 @@ ipcMain.on('user:load',  async (e, username) =>{
 async function getSabritasProvider(){
     try{
         const providers = MongoDB.getCollection('providers');
+ipcMain.on('provider:load', getSabritasProvider)
 
-        const res = await providers.findOne({name: 'Sabritas'})
+ipcMain.on('products:load', async (e, productName) => {
+    products = MongoDB.getCollection('products')
+    p = await Products.findOneProductByName(product, productName)
+    mainWindow.webContents.send('products:get', JSON.stringify(p))
+})
 
-        mainWindow.webContents.send('provider:get', JSON.stringify(res))
-    } catch (err) {
-        console.log(err)
-    }
-}
