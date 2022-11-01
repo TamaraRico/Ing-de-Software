@@ -142,3 +142,12 @@ const deleteMultipleProductsByName = async (products, nameOfProduct) => {
         throw err
     }
 }
+
+module.exports = {insertOneProduct, 
+    insertMultipleProducts, 
+    findOneProductByName, 
+    findMultipleProductsByName,
+    findAllProducts,
+    findOneProductByBarcode,
+    deleteOneProductByName,
+    deleteMultipleProductsByName}
