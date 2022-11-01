@@ -12,4 +12,6 @@ const connectDB = () => {
 
 const getDB = () => _db;
 
-module.exports = {connectDB, getDB};
+const getCollection = (name) => _db.collection(name)
+
+module.exports = {connectDB, getDB, getCollection};
