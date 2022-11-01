@@ -56,6 +56,6 @@ app.on('activate',() =>{
 
 ipcMain.on('products:load', async (e, productName) => {
     products = MongoDB.getCollection('products')
-    p = await products.findOneProductByName(products, productName)
+    p = await Products.findOneProductByName(products, productName)
     mainWindow.webContents.send('products:get', JSON.stringify(p))
 })
