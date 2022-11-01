@@ -57,10 +57,10 @@ const findMultipleProductsByName = async (products, nameOfProduct) => {
                 console.log(`   price: ${res.price}`);
                 console.log(`   manufacture: ${res.manufacture}`);
                 console.log(`   barcode: ${res.barcode}`);
-                console.log(`   lastPurchase: ${res.lastPurchase}`);
+                //console.log(`   lastPurchase: ${res.lastPurchase}`);
                 console.log(`   providerCode: ${res.providerCode}`);
-                console.log(`   discountPercent: ${res.discountPercent}`);
-                console.log(`   hasDiscount: ${res.hasDiscount}`);
+                //console.log(`   discountPercent: ${res.discountPercent}`);
+                //console.log(`   hasDiscount: ${res.hasDiscount}`);
             })
             return res
         } else{
