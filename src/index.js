@@ -14,8 +14,8 @@ root.render(
     <BrowserRouter>
       <div className='App'>
           <Routes>
-            <Route path='/' element={<ProductsReport />} /> 
-            <Route path='/providersreport' element={<ProvidersReport />} /> 
+            <Route path='/' element={<ProvidersReport />} /> 
+            <Route path='/productsReport' element={<ProductsReport />} /> 
           </Routes>
       </div>
     </BrowserRouter>

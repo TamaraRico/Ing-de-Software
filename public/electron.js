@@ -1,8 +1,8 @@
 const path = require('path')
 const  url  = require('url')
-
+const ExcelJS = require('exceljs')
 const { app, BrowserWindow, ipcMain } = require('electron')
-
+var FileSaver = require('file-saver');
 const MongoDB = require('../src/db/mongoUtil');
 
 MongoDB.connectDB();
@@ -74,19 +74,7 @@ async function getSabritasProvider(){
 ipcMain.on('products:fetch', getProducts)
 async function getProducts(){
     try{
-        var database = MongoDB.getDB();
-        var products = database.collection('products');
-
-        const res = await products.find({})
-
-        //Chocomaniobra para que me lleguen los datos como quiero xd
-        var aux = []
-        while(await res.hasNext()) {
-            const doc = await res.next();
-            aux.push(doc)
-        }
-        console.log(aux)
-        mainWindow.webContents.send('products:fetch', aux)
+        mainWindow.webContents.send('products:fetch',await MongoDB.fetchProducts() )
     } catch (err) {
         console.log(err)
     }
@@ -95,18 +83,8 @@ async function getProducts(){
 ipcMain.on('providers:fetch', getProviders)
 async function getProviders(){
     try{
-        var database = MongoDB.getDB();
-        var providers = database.collection('providers');
-        const res = await providers.find({})
-        
-        //Chocomaniobra para que me lleguen los datos como quiero xd
-        var aux = []
-        while(await res.hasNext()) {
-            const doc = await res.next();
-            aux.push(doc)
-        }
-        console.log(aux)
-        mainWindow.webContents.send('providers:fetch', aux)
+        MongoDB.fetchProviders()
+        mainWindow.webContents.send('providers:fetch',await MongoDB.fetchProviders())
     } catch (err) {
         console.log(err)
     }
