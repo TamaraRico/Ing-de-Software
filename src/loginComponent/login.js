@@ -17,49 +17,31 @@ class Login extends React.Component {
           <input type="password" id ="password"/>
         </div>
         {/* <Link to="/pos">Ir a main</Link> */}
-        <button  onClick={() =>{
-          var user = document.getElementById("username").value;
-          var pass = document.getElementById("password").value;
-          if((user != '') && (pass != '')) {
-            window.api.send('user:load',user);
-
-            window.api.receive('user:get', (data) => {
-              const data2 = JSON.parse(data);
-              if(data2.password == pass){
-                if(data2.role == 'administrator'){
-                } else {
-                  window.location.pathname = "/pos";
-                }
-              } else {
-                console.log("Error")
-              }
-            });
-          }
-        }}  >Iniciar Sesion</button>
+        <button  onClick={this.validate}  >Iniciar Sesion</button>
       </div>
     );
   }
 
-  // validate(){
-  //   var user = document.getElementById("username").value;
-  //   var pass = document.getElementById("password").value;
-  //   if((user != '') && (pass != '')) {
-  //     window.api.send('user:load',user);
+  validate(){
+    var user = document.getElementById("username").value;
+    var pass = document.getElementById("password").value;
+    if((user != '') && (pass != '')) {
+      window.api.send('user:load',user);
 
-  //     window.api.receive('user:get', (data) => {
-  //       const data2 = JSON.parse(data);
-  //       if(data2.password == pass){
-  //         if(data2.role == 'administrator'){
+      window.api.receive('user:get', (data) => {
+        const data2 = JSON.parse(data);
+        if(data2.password == pass){
+          if(data2.role == 'administrator'){
             
-  //         } else {
+          } else {
             
-  //         }
-  //       } else {
-  //         console.log("Error")
-  //       }
-  //     });
-  //   }
-  // }
+          }
+        } else {
+          console.log("Error")
+        }
+      });
+    }
+  }
 }
 
 export default (Login);
