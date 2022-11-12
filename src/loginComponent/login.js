@@ -1,33 +1,57 @@
-import { TextField } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+
+var user = null;
+var pass = null;
 
 class Login extends React.Component {
   render() {
-    return(<div>
+    return(
+      <div class="App">
         <div>
-          <h1>Usuario</h1>
+          <UsernameTextField/>
         </div>
         <div>
-          {/* <TextField></TextField> */}
-          <input type="text" id ="username"/>
+          <PasswordTextField/>
         </div>
-        <div>
-          <h1>Contrasena</h1>
-        </div>
-        <div>
-          {/* <TextField></TextField> */}
-          <input type="password" id ="password"/>
-        </div>
-        {/* <Link to="/pos">Ir a main</Link> */}
-        <button  onClick={this.validate}  >Iniciar Sesion</button>
+          <LoginButton/>
       </div>
     );
   }
+}
 
+class UsernameTextField extends React.Component{
+  getValue(e){
+    user = e.target.value
+  }
+
+  render(){
+    return( <TextField 
+              id="username" 
+              label="Usuario" 
+              variant="outlined"
+              onChange={this.getValue}
+              />)
+  }
+}
+
+class PasswordTextField extends React.Component{
+  getValue(e){
+    pass = e.target.value
+  }
+  render(){
+    return( <TextField 
+              id="password" 
+              label="Contrasena" 
+              type="password"              
+              onChange={this.getValue}
+              />)
+  }
+}
+
+class LoginButton extends React.Component{
   validate(){
-    var user = document.getElementById("username").value;
-    var pass = document.getElementById("password").value;
     if((user != '') && (pass != '')) {
       window.api.send('user:load',user);
 
@@ -40,10 +64,19 @@ class Login extends React.Component {
             window.location.pathname = "/pos";
           }
         } else {
-          console.log("Error")
+          console.log("Error");
         }
       });
     }
+  }
+
+  render(){
+    return(<Button 
+            variant="contained"
+            onClick={this.validate}>
+            Iniciar Sesion
+            </Button>
+    )
   }
 }
 

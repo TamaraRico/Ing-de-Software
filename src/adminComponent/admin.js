@@ -8,7 +8,7 @@ class Admin extends React.Component{
             <h1>
                 Administrator
             </h1>
-            <Link to="/src/loginComponent/login.js"></Link>
+            <Link to="/Login"></Link>
         </div>)
     }
 }
