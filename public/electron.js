@@ -1,6 +1,5 @@
 const path = require('path')
-const  url  = require('url')
-
+const url  = require('url')
 const { app, BrowserWindow, ipcMain } = require('electron')
 
 const MongoDB = require('../src/db/mongoUtil');
