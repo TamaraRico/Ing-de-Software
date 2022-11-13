@@ -4,6 +4,8 @@ const  url  = require('url')
 const { app, BrowserWindow, ipcMain } = require('electron')
 
 const MongoDB = require('../src/db/mongoUtil');
+const Users = require('../src/db/users');
+const Products = require('../src/db/products');
 
 MongoDB.connectDB();
 
@@ -52,20 +54,14 @@ app.on('activate',() =>{
     }
 });
 
-//EXAMPLE OF LOAD WITH MONGODB
-ipcMain.on('provider:load', getSabritasProvider)
+ipcMain.on('user:load',  async (e, username) =>{
+    var users = MongoDB.getCollection('users');
+    var u = await Users.getUserByName(users, username);
+    mainWindow.webContents.send('user:get',JSON.stringify(u))
+})
 
-
-//EXAMPLE OF ASYNC FUNCTION TO RETRIEVE DATA FROM MONGODB
-async function getSabritasProvider(){
-    try{
-        var database = MongoDB.getDB();
-        var providers = database.collection('providers');
-
-        const res = await providers.findOne({name: 'Sabritas'})
-
-        mainWindow.webContents.send('provider:get', JSON.stringify(res))
-    } catch (err) {
-        console.log(err)
-    }
-}
+ipcMain.on('product:getByBarcode', async(e, product) => {
+    var products = MongoDB.getCollection('products');
+    var p = await Products.getProductByBarcode(products, product);
+    mainWindow.webContents.send('product:getOne', JSON.stringify(p))
+})
