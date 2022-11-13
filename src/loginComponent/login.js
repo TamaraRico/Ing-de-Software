@@ -4,12 +4,10 @@ import Button from '@mui/material/Button';
 import Swal from 'sweetalert2'
 import './App.css';
 
+var user = null;
+var pass = null;
 
-    window.api.receive('provider:get', (data) => {
-      console.log(data)
-    });
-  }
-  
+class Login extends React.Component {
   render(){
     return(
       <div className= "login-component">
