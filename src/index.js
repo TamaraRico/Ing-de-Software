@@ -4,6 +4,7 @@ import './index.css';
 
 import Login from './loginComponent/login';
 import POS from './posComponent/main';
+import AddProduct from './addProductComponent/addProduct';
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
@@ -17,6 +18,7 @@ root.render(
           <Routes>
             <Route path='/' element={<Login />} />
             <Route path='/pos' element={<POS />} />  
+            <Route path='/' element={<AddProduct />} />
           </Routes>
       </div>
     </BrowserRouter>

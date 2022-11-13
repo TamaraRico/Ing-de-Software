@@ -16,6 +16,7 @@ export default class Login extends React.Component {
         <h1>Hola mundo</h1>
         <button onClick={this.load}>Load sabritas</button>
         <Link to="/pos">Ir a main</Link>
+        <Link to="/addProduct">Agregar producto</Link>
       </div>
     );
   }
