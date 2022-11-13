@@ -31,6 +31,7 @@ class ProductsComponent extends React.Component{
                     variant="outlined"
                     onKeyDown={this.keyPressed}>
                 </TextField>
+                <Link to="/addProduct">Agregar producto</Link>
             </div>
         );
     }

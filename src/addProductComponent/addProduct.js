@@ -1,8 +1,7 @@
 import React, {Fragment, useState} from 'react';
-import { withRouter } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
-const AddProduct = () => {
+export default function AddProduct () {
     const [product, setProduct] =useState({
         name: '',
         category: '',
@@ -18,7 +17,7 @@ const AddProduct = () => {
             ...product,
             [e.target.name]: e.target.value
         });
-    }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -50,99 +49,102 @@ const AddProduct = () => {
                 });
             }
         });
-    };
+    }
 
-    return(
-        <Fragment>
-            <h2>Agregar producto</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="productName">Nombre del producto: </label>
-                    <input type="text" 
-                    className="form-control" 
-                    name="productName" 
-                    placeholder="Nombre del producto"
-                    defaultValue={product.name}
-                    onChange={handleChange}
-                    required/>
-                </div>
+        return(
+            <div>
+            <Fragment>
+                <h2>Agregar producto</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="productName">Nombre del producto: </label>
+                        <input type="text" 
+                        className="form-control" 
+                        name="productName" 
+                        placeholder="Nombre del producto"
+                        defaultValue={product.name}
+                        onChange={handleChange}
+                        required/>
+                    </div>
 
-                <div className="form-group">
-                    <label htmlFor="productCategory">Categoria: </label>
-                    <input type="text" 
-                    className="form-control" 
-                    name="productCategory" 
-                    placeholder="Categoria"
-                    defaultValue={product.category}
-                    onChange={handleChange}
-                    required/>
-                </div>
+                    <div className="form-group">
+                        <label htmlFor="productCategory">Categoria: </label>
+                        <input type="text" 
+                        className="form-control" 
+                        name="productCategory" 
+                        placeholder="Categoria"
+                        defaultValue={product.category}
+                        onChange={handleChange}
+                        required/>
+                    </div>
 
-                <div className="form-group">
-                    <label htmlFor="productManufacture">Fabricante: </label>
-                    <input type="text" 
-                    className="form-control" 
-                    name="productManufacture" 
-                    placeholder="Fabricante"
-                    defaultValue={product.manufacture}
-                    onChange={handleChange}
-                    required/>
-                </div>
+                    <div className="form-group">
+                        <label htmlFor="productManufacture">Fabricante: </label>
+                        <input type="text" 
+                        className="form-control" 
+                        name="productManufacture" 
+                        placeholder="Fabricante"
+                        defaultValue={product.manufacture}
+                        onChange={handleChange}
+                        required/>
+                    </div>
 
-                <div className="form-group">
-                    <label htmlFor="productProviderCode">Codigo del proveedor: </label>
-                    <input type="text" 
-                    className="form-control" 
-                    name="productProviderCode" 
-                    placeholder="Codigo del proveedor"
-                    defaultValue={product.providerCode}
-                    onChange={handleChange}
-                    required/>
-                </div>
+                    <div className="form-group">
+                        <label htmlFor="productProviderCode">Codigo del proveedor: </label>
+                        <input type="text" 
+                        className="form-control" 
+                        name="productProviderCode" 
+                        placeholder="Codigo del proveedor"
+                        defaultValue={product.providerCode}
+                        onChange={handleChange}
+                        required/>
+                    </div>
 
-                <div className="form-group">
-                    <label htmlFor="productQuantity">Cantidad: </label>
-                    <input type="number" 
-                    step="1"
-                    min="0"
-                    className="form-control" 
-                    name="productQuantity" 
-                    placeholder="Cantidad"
-                    defaultValue={product.quantity}
-                    onChange={handleChange}
-                    required/>
-                </div>
+                    <div className="form-group">
+                        <label htmlFor="productQuantity">Cantidad: </label>
+                        <input type="number" 
+                        step="1"
+                        min="0"
+                        className="form-control" 
+                        name="productQuantity" 
+                        placeholder="Cantidad"
+                        defaultValue={product.quantity}
+                        onChange={handleChange}
+                        required/>
+                    </div>
 
-                <div className="form-group">
-                    <label htmlFor="productPriceUnit">Precio unitario: </label>
-                    <input type="number" 
-                    step="1"
-                    min="0"
-                    className="form-control" 
-                    name="productPriceUnit" 
-                    placeholder="Precio unitario"
-                    defaultValue={product.priceUnit}
-                    onChange={handleChange}
-                    required/>
-                </div>
+                    <div className="form-group">
+                        <label htmlFor="productPriceUnit">Precio unitario: </label>
+                        <input type="number" 
+                        step="1"
+                        min="0"
+                        className="form-control" 
+                        name="productPriceUnit" 
+                        placeholder="Precio unitario"
+                        defaultValue={product.priceUnit}
+                        onChange={handleChange}
+                        required/>
+                    </div>
 
-                <div className="form-group">
-                    <label htmlFor="productPrice">Precio: </label>
-                    <input type="number" 
-                    step="1"
-                    min="0"
-                    className="form-control" 
-                    name="productPrice" 
-                    placeholder="Precio"
-                    defaultValue={product.price}
-                    onChange={handleChange}
-                    required/>
-                </div>
+                    <div className="form-group">
+                        <label htmlFor="productPrice">Precio: </label>
+                        <input type="number" 
+                        step="1"
+                        min="0"
+                        className="form-control" 
+                        name="productPrice" 
+                        placeholder="Precio"
+                        defaultValue={product.price}
+                        onChange={handleChange}
+                        required/>
+                    </div>
 
-                <button type="submit" className="btn btn-primary">Guardar</button>
-            </form>
-        </Fragment>
-    );
-};
+                    <button type="submit" className="btn btn-primary">Guardar</button>
+                </form>
+            </Fragment>
+            <Link to="/pos">Ir a main</Link>
+            </div>
+        )
+}
 
-export default withRouter(AddProduct);
+/* export default withRouter(AddProduct); */
