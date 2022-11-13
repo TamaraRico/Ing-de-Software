@@ -1,22 +1,83 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
-export default class Login extends React.Component {
-  load(){
-    window.api.send('provider:load');
+var user = null;
+var pass = null;
 
-    window.api.receive('provider:get', (data) => {
-      console.log(data)
-    });
-  }
-  
-  render(){
+class Login extends React.Component {
+  render() {
     return(
-      <div>
-        <h1>Hola mundo</h1>
-        <button onClick={this.load}>Load sabritas</button>
-        <Link to="/pos">Ir a main</Link>
+      <div class="App">
+        <div>
+          <UsernameTextField/>
+        </div>
+        <div>
+          <PasswordTextField/>
+        </div>
+          <LoginButton/>
       </div>
     );
   }
 }
+
+class UsernameTextField extends React.Component{
+  getValue(e){
+    user = e.target.value
+  }
+
+  render(){
+    return( <TextField 
+              id="username" 
+              label="Usuario" 
+              variant="outlined"
+              onChange={this.getValue}
+              />)
+  }
+}
+
+class PasswordTextField extends React.Component{
+  getValue(e){
+    pass = e.target.value
+  }
+  render(){
+    return( <TextField 
+              id="password" 
+              label="Contrasena" 
+              type="password"              
+              onChange={this.getValue}
+              />)
+  }
+}
+
+class LoginButton extends React.Component{
+  validate(){
+    if((user != '') && (pass != '')) {
+      window.api.send('user:load',user);
+
+      window.api.receive('user:get', (data) => {
+        const data2 = JSON.parse(data);
+        if(data2.password == pass){
+          if(data2.role == 'administrator'){
+            window.location.pathname = "/admin"
+          } else {
+            window.location.pathname = "/pos";
+          }
+        } else {
+          console.log("Error");
+        }
+      });
+    }
+  }
+
+  render(){
+    return(<Button 
+            variant="contained"
+            onClick={this.validate}>
+            Iniciar Sesion
+            </Button>
+    )
+  }
+}
+
+export default (Login);
