@@ -1,38 +1,38 @@
-.login-component {
-  background-color: #6d6875;
-  height: 100vh;
-  position: relative;
+.App {
+  text-align: center;
 }
 
-.login-container {
-  background-color: white;
-  border-radius: 30px 30px 30px 30px;
-  width: 30vw;
-  height: 80vh;
-  z-index: 10;
-  /* Center vertically and horizontally */
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  margin: -2vw 0 0 -17vw; /* Apply negative top and left margins to truly center the element */
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-.textField-container {
-  position: relative;
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
-.element {
-  display: inline-grid;
-  margin: 20px;
-  position: absolute;
-  left: 5vw;
-  justify-content: space-between;
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
+.App-link {
+  color: #61dafb;
+}
 
-
-svg{
-  bottom: 0;
-  position: absolute;
-  z-index: 1;
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

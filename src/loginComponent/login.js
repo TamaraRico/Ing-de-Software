@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import './App.css';
 
 var user = null;

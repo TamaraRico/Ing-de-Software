@@ -1,17 +1,9 @@
 const ObjectID = require('mongodb').ObjectId
 
 
-const getProductByBarcode = async (products, barcode) => {
+const fetchProviders = async (providers) => {
     try{
-        const product = await products.findOne({barcode : barcode})
-        return product
-    }catch(e){
-        throw e;
-    }
-}
-const fetchProducts = async (products) => {
-    try{
-        const res = await products.find({})
+        const res = await providers.find({})
         //Chocomaniobra para que me lleguen los datos como quiero xd
         var aux = []
         while(await res.hasNext()) {
@@ -24,4 +16,4 @@ const fetchProducts = async (products) => {
     }
     return aux
 }
-module.exports = {getProductByBarcode, fetchProducts};
+module.exports = {fetchProviders};
