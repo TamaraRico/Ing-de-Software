@@ -151,6 +151,7 @@ const getProductByBarcode = async (products, barcode) => {
         throw e;
     }
 }
+
 const fetchProducts = async (products) => {
     try{
         const res = await products.find({})

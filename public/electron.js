@@ -88,7 +88,8 @@ ipcMain.on('product:getByBarcode', async(e, product) => {
 ipcMain.on('products:findAllProducts', async (e) => {
     try{
         var products = MongoDB.getCollection('products')
-        mainWindow.webContents.send('products:getAllProducts',await Products.findAllProducts())
+        var p = await Products.fetchProducts(products)
+        mainWindow.webContents.send('products:getAllProducts', JSON.stringify(p))
     } catch (err) {
         console.log(err)
     }
