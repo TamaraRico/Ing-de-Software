@@ -4,7 +4,6 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 
 const MongoDB = require('../src/db/mongoUtil');
 const Users = require('../src/db/users');
-const Products = require('../src/db/products');
 const Providers = require('../src/db/providers');
 const Sells = require('../src/db/sells');
 MongoDB.connectDB();
@@ -54,6 +53,20 @@ app.on('activate',() =>{
     }
 });
 
+//--------  INICIO CONSULTAS DE ALONDRA :) ------------
+ipcMain.on('products:searchOne', async (e, productName) => {
+    var products = MongoDB.getCollection('products')
+    var p = await Products.findOneProductByName(products, productName)
+    mainWindow.webContents.send('products:get', JSON.stringify(p))
+ )}
+    
+ipcMain.on('products:add', async (e, listing) => {
+    var products = MongoDB.getCollection('products')
+    var p = await Products.insertOneProduct(products, listing)
+    mainWindow.webContents.send('products:get', JSON.stringify(p))
+})
+//--------  FIN CONSULTAS DE ALONDRA :) ------------
+
 //--------  INICIO CONSULTAS DE EDGAR :) ------------
 ipcMain.on('user:load',  async (e, username) =>{
     var users = MongoDB.getCollection('users');
@@ -83,6 +96,7 @@ ipcMain.on('products:findAllProducts', async (e) => {
 })
 //--------  FIN CONSULTAS DE TAMARA :) ------------
 
+
 //--------  INICIO CONSULTAS DE IRVIN :) ------------
 ipcMain.on('products:fetch', async function getProducts(){
     try{
@@ -111,8 +125,6 @@ ipcMain.on('sales:fetch',async function getSales(){
     }
 })
 
-
-
 ipcMain.on('sales_by_date:fetch',async function getSalesByDate(x, start, end){
     try{
         var sells = MongoDB.getCollection('sells');
@@ -121,6 +133,7 @@ ipcMain.on('sales_by_date:fetch',async function getSalesByDate(x, start, end){
         console.log(err)
     }
 })
+
 ipcMain.on('sale:delete',async function deleteOneSale(x, element){
     try{
         var sells = MongoDB.getCollection('sells');
@@ -129,6 +142,7 @@ ipcMain.on('sale:delete',async function deleteOneSale(x, element){
         console.log(err)
     }
 })
+
 ipcMain.on('sales_by_date:delete',async function deleteByDate(x, elements){
     try{
         var sells = MongoDB.getCollection('sells');
@@ -137,4 +151,5 @@ ipcMain.on('sales_by_date:delete',async function deleteByDate(x, elements){
         console.log(err)
     }
 })
+
 //--------  FIN CONSULTAS DE IRVIN :) ------------

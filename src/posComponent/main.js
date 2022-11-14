@@ -157,6 +157,7 @@ class ProductsComponent extends React.Component{
                     variant="outlined"
                     onKeyDown={this.handleChangeInput}>
                 </TextField>
+                <Link to="/addProduct">Agregar producto</Link>
                 <table>
                     <thead>
                         <th>CODIGO DE BARRAS</th>
