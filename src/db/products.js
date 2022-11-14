@@ -26,10 +26,8 @@ const insertMultipleProducts = async (products, newListings) => {
 }
 
 //Buscar un producto por nombre
-const findOneProductByName = async (products, nameOfProduct) => {
+const findOneProductByName = async (products, MongoDB, nameOfProduct) => {
     try{
-        var database = MongoDB.getDB();
-        var products = database.collection('products');
         const product = await products.findOne({name: nameOfProduct})
         if(product){
             console.log(`Found a listing in the collection with the name '${nameOfProduct}'`);
