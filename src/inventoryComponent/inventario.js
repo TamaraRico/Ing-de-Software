@@ -2,17 +2,35 @@ import React from "react";
 import './inventario.css';
 import Button from '@mui/material/Button';
 
-var dataInventory = null
+function getInventory() {
+  return new Promise((resolve, reject) => {
+    window.api.send('product:findAllProducts');
+    window.api.receive('product:getAllProducts', (data) => {
+      resolve(data);
+    });
+  });
+}
 
 class Inventory extends React.Component {
-    getInventory(){
-        window.api.send('product:findAllProducts');
-        window.api.receive('product:getAllProducts', (data) => {
-            dataInventory = JSON.parse(data);
-            return dataInventory;
-        });
-    }
-
+   fetchInventory(){
+      getInventory().then((data) => {
+        if (data !== "null") {
+          const dataInventory = JSON.parse(data);
+           return dataInventory;
+/*           const a = dataInventory
+          const p = {
+            barcode: product.barcode,
+            name: product.name,
+            category: product.category,
+            quantity: 1,
+            inventory: product.quantity,
+            price: product.priceUnit, 
+          };*/
+        } else{
+          throw console.error("no hay productos en la base de datos");
+        }
+   })
+  }
     render() {
     return(
         <div className="App">
@@ -30,7 +48,7 @@ class Inventory extends React.Component {
             <th>Última compra</th>
             <th>Proveedor</th>
           </tr>
-          {this.getInventory().map((val, key) => {
+          {this.fetchInventory().map((val, key) => {
             return (
               <tr key={key}>
                 <td>{val._id}</td>

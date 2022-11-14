@@ -60,9 +60,12 @@ ipcMain.on('user:load',  async (e, username) =>{
 })
 
 ipcMain.on('products:findAllProducts', async (e) => {
-    var products = MongoDB.getCollection('products')
-    var p = await Products.findAllProducts(products)
-    mainWindow.webContents.send('products:getAllProducts', JSON.stringify(p))
+    try{
+        var products = MongoDB.getCollection('products')
+        mainWindow.webContents.send('products:getAllProducts',await Products.findAllProducts())
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 //EXAMPLE OF ASYNC FUNCTION TO RETRIEVE DATA FROM MONGODB
