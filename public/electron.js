@@ -4,7 +4,9 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 
 const MongoDB = require('../src/db/mongoUtil');
 const Users = require('../src/db/users');
-
+const Products = require('../src/db/products');
+const Providers = require('../src/db/providers');
+const Sells = require('../src/db/sells');
 MongoDB.connectDB();
 
 let mainWindow;
@@ -52,23 +54,79 @@ app.on('activate',() =>{
     }
 });
 
-//EXAMPLE OF LOAD WITH MONGODB
-// ipcMain.on('provider:load', getSabritasProvider)
+//--------  INICIO CONSULTAS DE EDGAR :) ------------
 ipcMain.on('user:load',  async (e, username) =>{
     var users = MongoDB.getCollection('users');
     var u = await Users.getUserByName(users, username);
     mainWindow.webContents.send('user:get',JSON.stringify(u))
 })
+//--------  FIN CONSULTAS DE EDGAR :) ------------
 
-//EXAMPLE OF ASYNC FUNCTION TO RETRIEVE DATA FROM MONGODB
-async function getSabritasProvider(){
+//--------  INICIO CONSULTAS DE ADRIAN :) ------------
+ipcMain.on('product:getByBarcode', async(e, product) => {
+    var products = MongoDB.getCollection('products');
+    var p = await Products.getProductByBarcode(products, product);
+    mainWindow.webContents.send('product:getOne', JSON.stringify(p))
+})
+//--------  FIN CONSULTAS DE ADRIAN :) ------------
+
+
+
+
+//--------  INICIO CONSULTAS DE IRVIN :) ------------
+ipcMain.on('products:fetch', async function getProducts(){
     try{
-        const providers = MongoDB.getCollection('providers');
-
-        const res = await providers.findOne({name: 'Sabritas'})
-
-        mainWindow.webContents.send('provider:get', JSON.stringify(res))
+        var products = MongoDB.getCollection('products');
+        mainWindow.webContents.send('products:fetch',await Products.fetchProducts(products) )
     } catch (err) {
         console.log(err)
     }
-}
+})
+
+ipcMain.on('providers:fetch',async function getProviders(){
+    try{
+        var providers = MongoDB.getCollection('providers');
+        mainWindow.webContents.send('providers:fetch',await Providers.fetchProviders(providers))
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+ipcMain.on('sales:fetch',async function getSales(){
+    try{
+        var sells = MongoDB.getCollection('sells');
+        mainWindow.webContents.send('sales:fetch',await Sells.fetchSales(sells))
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+
+
+ipcMain.on('sales_by_date:fetch',async function getSalesByDate(x, start, end){
+    try{
+        var sells = MongoDB.getCollection('sells');
+        mainWindow.webContents.send('sales_by_date:fetch',await Sells.fetchSalesByDate(sells,start,end))
+    } catch (err) {
+        console.log(err)
+    }
+})
+ipcMain.on('sale:delete',async function deleteOneSale(x, element){
+    try{
+        var sells = MongoDB.getCollection('sells');
+        Sells.deleteSale(sells,element)
+    } catch (err) {
+        console.log(err)
+    }
+})
+ipcMain.on('sales_by_date:delete',async function deleteByDate(x, elements){
+    try{
+        var sells = MongoDB.getCollection('sells');
+        Sells.deleteSaleByDate(sells,elements)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+
+//--------  FIN CONSULTAS DE IRVIN :) ------------

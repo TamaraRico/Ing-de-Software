@@ -1,5 +1,3 @@
-
-
 function createProdutRow(barcode, name, unitPrice){
     return {barcode, name, unitPrice}
 }
@@ -30,4 +28,5 @@ const headCells = [
         label : "Cantidad"
     }
 ];
+
 
