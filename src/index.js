@@ -6,6 +6,8 @@ import Login from './loginComponent/login';
 import POS from './posComponent/main';
 import AddProduct from './addProductComponent/addProduct';
 import Admin from './adminComponent/admin'
+import Inventory from './inventoryComponent/inventario'
+import DeleteSales from './deleteSalesComponent/index';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
 const container = document.getElementById('root');
@@ -20,6 +22,8 @@ root.render(
             <Route path='/pos' element={<POS />} />  
             <Route path='/admin' element={<Admin />} />  
             <Route path='/' element={<AddProduct />} />
+            <Route path='/inventory' element={<Inventory/>} />  
+            <Route path='/deleteSales' element={<DeleteSales />} /> 
           </Routes>
       </div>
     </BrowserRouter>
