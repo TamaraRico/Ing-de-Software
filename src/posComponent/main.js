@@ -4,8 +4,6 @@ import Swal from "sweetalert2";
 import Button from "@mui/material/Button";
 import { Link } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
-
 function getProduct(barcode){
     return new Promise((resolve, reject) => {
         window.api.send('product:getByBarcode', barcode);
@@ -203,6 +201,7 @@ class ProductsComponent extends React.Component {
           variant="outlined"
           onKeyDown={this.handleChangeInput}
         ></TextField>
+        <Link to="/">Regresar a login</Link>
         <table>
           <thead>
             <tr>
@@ -243,27 +242,11 @@ CLASS TO HANDLE INTERNAL ACTIONS
 class InternalActions extends React.Component {
     render(){
         return (
-            <div className='productsHeader'>
-                <TextField 
-                    id="barcode_tosubtotal" 
-                    label="Codigo de barras" 
-                    variant="outlined"
-                    onKeyDown={this.handleChangeInput}>
-                </TextField>
-                <Link to="/addProduct">Agregar producto</Link>
-                <table>
-                    <thead>
-                        <th>CODIGO DE BARRAS</th>
-                        <th>NOMBRE DE PRODUCTO</th>
-                        <th>PRECIO UNITARIO</th>
-                        <th>CANTIDAD</th>
-                    </thead>
-                    <tbody>
-                        <ProductsList products={this.state.products}/>
-                        <TotalComponent total = {this.state.total} />
-                    </tbody>
-                </table>
-            </div>
+          <div className="sellActions">
+          <Button>Movimiento Interno</Button>
+          <Button>Corte de caja en X</Button>
+          <Button>Corte de caja en Z</Button>
+          </div>
         );
     }
 }
@@ -284,14 +267,4 @@ class SellsActions extends React.Component {
     }
 }
 
-class TotalComponent extends React.Component {
-    render(){
-        return(
-            <div className="sellActions">
-                <Button>Aplicar descuento</Button>
-                <Button>Aplicar devolucion</Button>
-            </div>
-        );
-    }
-}
 export default POS;
