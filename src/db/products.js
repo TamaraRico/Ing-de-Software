@@ -9,6 +9,7 @@ const getProductByBarcode = async (products, barcode) => {
         throw e;
     }
 }
+
 const fetchProducts = async (products) => {
     try{
         const res = await products.find({})
@@ -24,4 +25,15 @@ const fetchProducts = async (products) => {
     }
     return aux
 }
-module.exports = {getProductByBarcode, fetchProducts};
+
+const getAllProducts = async (products) => {
+    try{
+        const product = await products.find({})
+        console.log("Product de funcion getAllproducts", product)
+        return product
+    }catch(e){
+        throw e;
+    }
+}
+
+module.exports = {getProductByBarcode, fetchProducts, getAllProducts};
