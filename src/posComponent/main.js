@@ -2,6 +2,8 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import Swal from 'sweetalert2'
 
+//IF WE WANT TO GO TO ANOTHER PAGE, WE USE LINK
+import { Link } from 'react-router-dom';
 
 function getProduct(barcode){
     return new Promise((resolve, reject) => {
@@ -46,9 +48,6 @@ function calculateQuantityToSellInProduct(productQuantity, inventoryQuantity){
 
     return safe_update;
 }
-
-//IF WE WANT TO GO TO ANOTHER PAGE, WE USE LINK
-//import { Link } from 'react-router-dom';
 
 class POS extends React.Component {
     render(){

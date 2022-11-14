@@ -21,7 +21,7 @@ root.render(
             <Route path='/' element={<Login />} />
             <Route path='/pos' element={<POS />} />  
             <Route path='/admin' element={<Admin />} />  
-            <Route path='/' element={<AddProduct />} />
+            <Route path='/addProduct' element={<AddProduct />} />
             <Route path='/inventory' element={<Inventory/>} />  
             <Route path='/deleteSales' element={<DeleteSales />} /> 
           </Routes>

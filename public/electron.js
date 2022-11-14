@@ -5,7 +5,9 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const MongoDB = require('../src/db/mongoUtil');
 const Users = require('../src/db/users');
 const Providers = require('../src/db/providers');
+const Products = require('../src/db/products');
 const Sells = require('../src/db/sells');
+
 MongoDB.connectDB();
 
 let mainWindow;
@@ -58,7 +60,7 @@ ipcMain.on('products:searchOne', async (e, productName) => {
     var products = MongoDB.getCollection('products')
     var p = await Products.findOneProductByName(products, productName)
     mainWindow.webContents.send('products:get', JSON.stringify(p))
- )}
+})
     
 ipcMain.on('products:add', async (e, listing) => {
     var products = MongoDB.getCollection('products')

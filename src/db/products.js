@@ -1,4 +1,4 @@
-const objectId = requiere('mongodb').ObjectId
+const objectId = require('mongodb').ObjectId
 
 //Agrega un solo producto
 const insertOneProduct = async (products, newListing) => {
@@ -152,6 +152,7 @@ const getProductByBarcode = async (products, barcode) => {
     }
 }
 
+
 const fetchProducts = async (products) => {
     try{
         const res = await products.find({})
@@ -177,4 +178,4 @@ module.exports = {insertOneProduct,
     deleteOneProductByName,
     deleteMultipleProductsByName,
     getProductByBarcode, 
-    fetchProducts}
+    fetchProducts};
