@@ -3,9 +3,6 @@ import TextField from "@mui/material/TextField";
 import Swal from "sweetalert2";
 import Button from "@mui/material/Button";
 
-//IF WE WANT TO GO TO ANOTHER PAGE, WE USE LINK
-//import { Link } from 'react-router-dom';
-
 function getProduct(barcode) {
   return new Promise((resolve, reject) => {
     window.api.send("product:getByBarcode", barcode);
@@ -205,11 +202,13 @@ class ProductsComponent extends React.Component {
         ></TextField>
         <table>
           <thead>
-            <th>CODIGO DE BARRAS</th>
-            <th>NOMBRE DE PRODUCTO</th>
-            <th>PRECIO UNITARIO</th>
-            <th>CANTIDAD</th>
-            <th>MODIFICACION</th>
+            <tr>
+              <th>CODIGO DE BARRAS</th>
+              <th>NOMBRE DE PRODUCTO</th>
+              <th>PRECIO UNITARIO</th>
+              <th>CANTIDAD</th>
+              <th>MODIFICACION</th>
+            </tr>
           </thead>
           <tbody>
             {this.state.products.map((product, index) => (
@@ -224,9 +223,7 @@ class ProductsComponent extends React.Component {
           </tbody>
         </table>
         <div>
-          <h1>
-            TOTAL A PAGAR: $<b>{this.props.total}</b>
-          </h1>
+          <h1>TOTAL A PAGAR: $<b>{this.state.total}</b></h1>
           <Button variant="contained" onClick={this.handleTotalSell}>FINALIZA COMPRA </Button>
         </div>
       </div>
