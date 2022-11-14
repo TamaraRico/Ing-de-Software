@@ -5,7 +5,7 @@ import './index.css';
 import Login from './loginComponent/login';
 import POS from './posComponent/main';
 import Admin from './adminComponent/admin'
-import Inventory from './inventaryComponent/inventario'
+import Inventory from './inventoryComponent/inventario'
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
