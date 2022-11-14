@@ -1,14 +1,12 @@
-const objectId = require('mongodb').ObjectId
+const objectId = requiere('mongodb').ObjectId
 
 //Agrega un solo producto
 const insertOneProduct = async (products, newListing) => {
     try{
         const res = await products.insertOne(newListing);
         console.log(`New listing created with the following id: ${res.insertedId}`);
-        return 1;
     } catch (err) {
         console.log(err)
-        return 0;
     }
 }
 
@@ -18,15 +16,13 @@ const insertMultipleProducts = async (products, newListings) => {
         const res = await products.insertMany(newListings);
         console.log(`${res.insertedCount} new listings created with the following id(s): `);
         console.log(res.insertedIds);
-        return 1;
     } catch (err) {
         console.log(err)
-        return 0;
     }
 }
 
 //Buscar un producto por nombre
-const findOneProductByName = async (products, MongoDB, nameOfProduct) => {
+const findOneProductByName = async (products, nameOfProduct) => {
     try{
         const product = await products.findOne({name: nameOfProduct})
         if(product){
@@ -35,12 +31,10 @@ const findOneProductByName = async (products, MongoDB, nameOfProduct) => {
             return product
         } else{
             console.log(`No listings found with the name '${nameOfProduct}'`);
-            return 0;
         }
     } catch (err) {
         console.log(err)
         throw err;
-        return 0;
     }
 }
 
@@ -61,20 +55,18 @@ const findMultipleProductsByName = async (products, nameOfProduct) => {
                 console.log(`   price: ${res.price}`);
                 console.log(`   manufacture: ${res.manufacture}`);
                 console.log(`   barcode: ${res.barcode}`);
-                //console.log(`   lastPurchase: ${res.lastPurchase}`);
+                console.log(`   lastPurchase: ${res.lastPurchase}`);
                 console.log(`   providerCode: ${res.providerCode}`);
-                //console.log(`   discountPercent: ${res.discountPercent}`);
-                //console.log(`   hasDiscount: ${res.hasDiscount}`);
+                console.log(`   discountPercent: ${res.discountPercent}`);
+                console.log(`   hasDiscount: ${res.hasDiscount}`);
             })
             return res
         } else{
             console.log(`No listings found with the name '${nameOfProduct}'`);
-            return 0;
         }
     } catch (err) {
         console.log(err)
         throw err
-        return 0;
     }
 }
 
@@ -105,12 +97,10 @@ const findAllProducts = async (products) => {
             return res
         } else{
             console.log(`No listings found`);
-            return 0;
         }
     } catch (err) {
         console.log(err)
         throw err
-        return 0;
     }
 }
 
@@ -124,12 +114,10 @@ const findOneProductByBarcode = async (products, productBarcode) => {
             return product
         } else{
             console.log(`No listings found with the barcode '${productBarcode}'`);
-            return 0;
         }
     } catch (err) {
         console.log(err)
         throw err;
-        return 0;
     }
 }
 
@@ -138,11 +126,9 @@ const deleteOneProductByName = async (products, nameOfProduct) => {
     try{
         const res = await products.deleteOne({name: nameOfProduct});
         console.log(`${res.deletedCount} document was deleted`);
-        return 1;
     } catch (err) {
         console.log(err)
         throw err
-        return 0;
     }
 }
 
@@ -151,11 +137,9 @@ const deleteMultipleProductsByName = async (products, nameOfProduct) => {
     try{
         const res = await products.deleteMany({name: nameOfProduct});
         console.log(`${res.deletedCount} document(s) was/were deleted`);
-        return 1;
     } catch (err) {
         console.log(err)
         throw err
-        return 0;
     }
 }
 

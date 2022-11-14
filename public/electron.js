@@ -5,7 +5,6 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const MongoDB = require('../src/db/mongoUtil');
 const Users = require('../src/db/users');
 const Products = require('../src/db/products')
-const Products = require('../src/db/products');
 
 MongoDB.connectDB();
 
