@@ -1,7 +1,7 @@
 .login-component {
-  background-color: #6d6875;
+  background-color: #6d6875 !important;
   height: 100vh;
-  position: relative;
+  width: 100%;
 }
 
 .login-container {
@@ -10,11 +10,10 @@
   width: 30vw;
   height: 80vh;
   z-index: 10;
-  /* Center vertically and horizontally */
   position: absolute;
   top: 10%;
   left: 50%;
-  margin: -2vw 0 0 -17vw; /* Apply negative top and left margins to truly center the element */
+  margin: -2vw 0 0 -17vw;
 }
 
 .textField-container {
@@ -26,13 +25,10 @@
   margin: 20px;
   position: absolute;
   left: 5vw;
-  justify-content: space-between;
 }
 
-
-
 svg{
-  bottom: 0;
   position: absolute;
   z-index: 1;
+  bottom:  0;
 }
