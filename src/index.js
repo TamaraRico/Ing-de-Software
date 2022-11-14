@@ -4,7 +4,8 @@ import './index.css';
 
 import Login from './loginComponent/login';
 import POS from './posComponent/main';
-import Admin from './adminComponent/admin';
+import Admin from './adminComponent/admin'
+import Inventory from './inventoryComponent/inventario'
 import DeleteSales from './deleteSalesComponent/index';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
@@ -19,6 +20,7 @@ root.render(
             <Route path='/' element={<Login />} />
             <Route path='/pos' element={<POS />} />  
             <Route path='/admin' element={<Admin />} />  
+            <Route path='/inventory' element={<Inventory/>} />  
             <Route path='/deleteSales' element={<DeleteSales />} /> 
           </Routes>
       </div>

@@ -71,7 +71,16 @@ ipcMain.on('product:getByBarcode', async(e, product) => {
 //--------  FIN CONSULTAS DE ADRIAN :) ------------
 
 
-
+//--------  INICIO CONSULTAS DE TAMARA :) ------------
+ipcMain.on('products:findAllProducts', async (e) => {
+    try{
+        var products = MongoDB.getCollection('products')
+        mainWindow.webContents.send('products:getAllProducts',await Products.findAllProducts())
+    } catch (err) {
+        console.log(err)
+    }
+})
+//--------  FIN CONSULTAS DE TAMARA :) ------------
 
 //--------  INICIO CONSULTAS DE IRVIN :) ------------
 ipcMain.on('products:fetch', async function getProducts(){
@@ -127,6 +136,4 @@ ipcMain.on('sales_by_date:delete',async function deleteByDate(x, elements){
         console.log(err)
     }
 })
-
-
 //--------  FIN CONSULTAS DE IRVIN :) ------------
