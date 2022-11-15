@@ -5,8 +5,8 @@ import {Button , Box}from '@mui/material';
 import swal from 'sweetalert';
 
 // Componentes usados
-import UsernameTextField from '../permissionsComponent/UsernameTextField'
-import PasswordTextField from '../permissionsComponent/PasswordTextField'
+import UsernameTextField from '../loginComponent/permissionsComponent/UsernameTextField'
+import PasswordTextField from '../loginComponent/permissionsComponent/PasswordTextField'
 
 // Variables para los datos del usuario
 var user = null;

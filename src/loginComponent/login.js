@@ -4,8 +4,8 @@ import {Button , Box} from '@mui/material';
 import './App.css';
 import swal from 'sweetalert';
 
-import UsernameTextField from '../permissionsComponent/UsernameTextField';
-import PasswordTextField from '../permissionsComponent/PasswordTextField';
+import UsernameTextField from './permissionsComponent/UsernameTextField';
+import PasswordTextField from './permissionsComponent/PasswordTextField';
 
 var user = null;
 var pass = null;
