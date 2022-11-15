@@ -1,22 +1,53 @@
 import React from "react";
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Swal from 'sweetalert2'
+import {Button , Box} from '@mui/material';
+// import Swal from 'sweetalert2'
 import './App.css';
+import swal from 'sweetalert';
+
+import UsernameTextField from '../permissionsComponent/UsernameTextField';
+import PasswordTextField from '../permissionsComponent/PasswordTextField';
 
 var user = null;
 var pass = null;
 
 class Login extends React.Component {
+  state = {
+    user: "",
+    pass: "",
+  }
+
+  userState = (childData) => {
+    this.setState({ user: childData })
+  }
+  passState = (childData) => (
+    this.setState({ pass: childData })
+  )
+
   render(){
+
+    user = this.state.user;
+    pass = this.state.pass;
+
+    console.log(user)
     return(
       <div className= "login-component">
         <div className="login-container">
             <div className="textField-container">
               <div className="element">
-                <UsernameTextField/>
-                <PasswordTextField/>
-                <LoginButton/>
+              <div id="content">
+                <Box>
+                  <h1 position='center'>Pincelin</h1>
+                  <div>
+                    <UsernameTextField parentCallback={this.userState} />
+                  </div>
+                  <div>
+                    <PasswordTextField parentCallback={this.passState} />
+                  </div>
+                  <div>
+                    <LoginButton />
+                  </div>
+                </Box>
+              </div>
               </div>
             </div>
           </div>
@@ -28,58 +59,45 @@ class Login extends React.Component {
   }
 }
 
-class UsernameTextField extends React.Component{
-  getValue(e){
-    user = e.target.value
-  }
-
-  render(){
-    return( <TextField
-              id="username" 
-              label="Usuario" 
-              variant="outlined"
-              onChange={this.getValue}
-              />)
-  }
-}
-
-class PasswordTextField extends React.Component{
-  getValue(e){
-    pass = e.target.value
-  }
-  render(){
-    return( <TextField 
-              id="password" 
-              label="Contrasena" 
-              type="password"              
-              onChange={this.getValue}
-              />)
-  }
-}
-
 class LoginButton extends React.Component{
-  validate(){
-    if((user !== '') && (pass !== '')) {
-      window.api.send('user:load',user);
-      window.api.receive('user:get', (data) => {
-        const data2 = JSON.parse(data);
-        if(data2.password === pass){
-          if(data2.role === 'administrator'){
-            window.location.pathname = "/admin"
+  validate() {
+      if ((user != null) && (pass != null)) {
+        window.api.send('user:load', user);
+
+        window.api.receive('user:get', (data) => {
+          const data2 = JSON.parse(data);
+          if (data != null) {
+            if (data2.password == pass) {
+              swal({
+                title: 'Sesion Iniciada!',
+                text: 'Sesion iniciada correctamente!',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+
+              })
+              if (data2.role == 'administrator') {
+                window.location.pathname = "/admin"
+              } else {
+                window.location.pathname = "/pos";
+              }
+            } else {
+              swal({
+                title: 'Error!',
+                text: 'Contrasena incorrecta',
+                icon: 'error',
+                confirmButtonText: 'Cerrar'
+              })
+            }
           } else {
-            localStorage.setItem('usuario', data2.name)
-            window.location.pathname = "/pos";
+            swal({
+              title: 'Error!',
+              text: 'Usuario no encontrado',
+              icon: 'error',
+              confirmButtonText: 'Cerrar'
+            })
           }
-        } else {
-          Swal.fire({
-            title: 'Error!',
-            text: 'Usuario no encontrado',
-            icon: 'error',
-            confirmButtonText: 'Cerrar'
-          })
-        }
-      });
-    }
+        });
+      }
   }
   render(){
     return(

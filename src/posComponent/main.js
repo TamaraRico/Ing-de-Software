@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import Swal from "sweetalert2";
 import Button from "@mui/material/Button";
 import { Link } from 'react-router-dom';
+import Modal from './modal'
 
 function getProduct(barcode){
     return new Promise((resolve, reject) => {
@@ -54,6 +55,7 @@ class POS extends React.Component {
   render() {
     return (
         <div>
+            <PermissionsComponent/>
             <InternalActions />
             <SellsActions />
             <ProductsComponent />
@@ -307,6 +309,31 @@ class SellsActions extends React.Component {
             </div>
         );
     }
+}
+
+class PermissionsComponent extends React.Component{
+
+  state = {
+      active: false,
+  }
+
+  toogle = () =>{
+      this.setState({active: !this.state.active});
+  }
+
+  render(){
+      
+      return(
+          <div>
+              <Button variant="contained" onClick={this.toogle} margin="dense">Pedir permisos</Button>
+              <Modal active ={this.state.active} toogle = {this.toogle}>
+                  <div>
+                      Ingrese Usuario Administrador
+                  </div>
+              </Modal>
+          </div>
+      );   
+  }
 }
 
 export default POS;
