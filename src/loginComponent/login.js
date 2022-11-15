@@ -61,13 +61,13 @@ class LoginButton extends React.Component{
   validate(){
     if((user !== '') && (pass !== '')) {
       window.api.send('user:load',user);
-
       window.api.receive('user:get', (data) => {
         const data2 = JSON.parse(data);
         if(data2.password === pass){
           if(data2.role === 'administrator'){
             window.location.pathname = "/admin"
           } else {
+            localStorage.setItem('usuario', data2.name)
             window.location.pathname = "/pos";
           }
         } else {
@@ -81,7 +81,6 @@ class LoginButton extends React.Component{
       });
     }
   }
-
   render(){
     return(
       <Button variant="contained" onClick={this.validate}> Iniciar Sesion </Button>

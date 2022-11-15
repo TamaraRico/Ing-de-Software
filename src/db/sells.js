@@ -16,6 +16,7 @@ const fetchSales = async (sells) => {
     }
     return aux
 }
+
 const fetchSalesByDate = async (sells, start, end) => {
     try{
         var query = {
@@ -37,6 +38,7 @@ const fetchSalesByDate = async (sells, start, end) => {
     }
     return aux
 }
+
 const deleteSale = async (sells, id) => {
     try{
         var query = {_id: new ObjectID(id)}
@@ -57,4 +59,13 @@ const deleteSaleByDate = async (sells,elements) => {
         console.log(err)
     }
 }
-module.exports = {fetchSales, fetchSalesByDate, deleteSale, deleteSaleByDate};
+
+const insertSale = async (sells,venta) => {
+    try{
+        await sells.insertOne(venta,{});
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+module.exports = {fetchSales, fetchSalesByDate, deleteSale, deleteSaleByDate, insertSale};

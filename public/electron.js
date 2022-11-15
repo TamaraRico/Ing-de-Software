@@ -154,4 +154,15 @@ ipcMain.on('sales_by_date:delete',async function deleteByDate(x, elements){
     }
 })
 
+ipcMain.on('sales:insert',async (e, venta) =>{
+    try{
+        var sells = MongoDB.getCollection('sells');
+        Sells.insertSale(sells, venta)
+        mainWindow.webContents.send('sales:insert', true)
+    } catch (err) {
+        mainWindow.webContents.send('sales:insert', false)
+        console.log(err)
+    }
+})
+
 //--------  FIN CONSULTAS DE IRVIN :) ------------

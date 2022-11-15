@@ -181,15 +181,57 @@ class ProductsComponent extends React.Component {
     );
   }
 
-  //FUNCTION TO ALL THE ALGORITHM TO CALCULATE CHANGE FOR THE SALE AND APPEND SALE TO DB
-  /*
-  * TODO:
-    -> Calculate change for the sale
-    -> Create sell object and added to the db
-    -> clear current products list as well total
-  */
   handleTotalSell(e){
-    
+    //DEVELOPED BY IRVIN - ADDED BY ADRIAN
+    if(this.state.products.length !== 0){
+      let fecha = new Date(new Date().toISOString());
+      let empleado = localStorage.getItem('usuario')
+      let productos = []
+      var categories = {};
+      this.state.products.forEach( function(json, indice, array) {
+        var category = json.category;
+        if (!(category in categories)){ categories[category] = [];}
+        json = {
+          barcode: json.barcode,
+          quantity: json.quantity
+        }
+        categories[category].push(json);
+      });
+      for (let i in categories){
+        let aux = {
+          category: i,
+          products: categories[i]
+        }
+        productos.push(aux)
+      }
+      var venta = {
+        factured_date: fecha,
+        employee: empleado,
+        purchased_products: productos,
+        total: this.state.total
+      }
+      window.api.send('sales:insert', venta);
+      window.api.receive('sales:insert',  async (confirmacion) => {
+        if(confirmacion){
+          Swal.fire({
+            title: 'Venta guardada',
+            text: 'Venta guardada en la BDD',
+            icon: 'success',
+            confirmButtonText: 'Cerrar'
+          })
+          this.setState({products: [],total: 0,}) //Clear total n products
+        }
+        else{
+          Swal.fire({
+            title: 'Error!',
+            text: 'No se pudo guardar la venta :(',
+            icon: 'error',
+            confirmButtonText: 'Cerrar'
+          })
+        }
+      });
+    }
+
   }
 
   render() {
