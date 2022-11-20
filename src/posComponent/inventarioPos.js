@@ -1,5 +1,5 @@
 import React from "react";
-import "./inventario.css";
+// import "./inventario.css";
 import Button from "@mui/material/Button";
 
 function getInventory() {
@@ -87,7 +87,7 @@ class Inventory extends React.Component {
 
 class ReturnButton extends React.Component {
   validate() {
-    window.location.pathname = "/admin";
+    window.location.pathname = "/pos";
   }
 
   render() {

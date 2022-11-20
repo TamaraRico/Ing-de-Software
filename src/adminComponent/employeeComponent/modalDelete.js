@@ -4,34 +4,31 @@ import Portal from './portal';
 import {Button , Box}from '@mui/material';
 import swal from 'sweetalert';
 // Componentes usados
-import UsernameTextField from '../loginComponent/permissionsComponent/UsernameTextField'
-import PasswordTextField from '../loginComponent/permissionsComponent/PasswordTextField'
-
+import UsernameTextField from './formComponent/UsernameTextField'
 // Variables para los datos del usuario
 var user = null;
-var pass = null;
 var exit = null;
-class Modal extends React.Component{
+
+class ModalDelete extends React.Component{
+    // 
     state = {
         user: "",
         pass: "",
+        entry: "",
+        out: "",
     }
-
+    
     userState = (childData) =>{
         this.setState({user: childData})
     }
-    
-    passState = (childData) =>(
-        this.setState({pass: childData})
-    )
 
     render(){
         const { children, toogle, active } = this.props;
+
         exit = toogle;
         user = this.state.user;
-        pass = this.state.pass;
+    
         return (
-            <div>
             <Portal>
                 {active && (
                     <div style={styles.wrapper}>
@@ -43,19 +40,13 @@ class Modal extends React.Component{
                                     <UsernameTextField parentCallback = {this.userState}/>
                                 </div>
                                 <div>
-                                    <PasswordTextField parentCallback = {this.passState}/>
-                                </div>
-                                <div>
-                                    <PermissionsButton/>
+                                    <EditButton/>
                                 </div>
                             </Box>
                         </div>
                     </div>
                 )}
-                
             </Portal>
-            </div>
-
         );
     }
 }
@@ -73,42 +64,53 @@ class ButtonExit extends React.Component{
     }
 }
 
-class PermissionsButton extends React.Component{
+class EditButton extends React.Component{
     validate(){
-        if((user != '') && (pass != '')) {
+        if((user != '')) {
             window.api.send('user:load',user);
-      
-            window.api.receive('user:get', (data) => {
+            window.api.receive('user:get', (data) => {     
                 const data2 = JSON.parse(data);
-                if(data2.password == pass){
-                    if(data2.role == 'administrator'){ 
-                        //Esta harcodeado por que no pude hacerlo funcionar con sweatAlert o Modal
-                        window.location.pathname = '/inventoryPos'
-                        swal({
-                            title: 'Permiso Consedido!',
-                            text: 'Usuario tiene permiso del administrador',
-                            icon: 'success',
-                            confirmButtonText: 'Cerrar'
-                        })
-                        exit()
-
-                    } else {
-                        swal({
-                            title: 'Error!',
-                            text: 'Usuario no es administrador',
-                            icon: 'error',
-                            confirmButtonText: 'Cerrar'
-                        })
+                if(data2 != null){
+                    var answer = window.confirm("Eliminar usuario "+user+"?");
+                    if(answer){
+                        if(data2.role != 'administrator'){
+                            window.api.send('user:delete', user);
+                            swal({
+                                title: 'Exito!',
+                                text: 'Borrado con exito!',
+                                icon: 'success',
+                                confirmButtonText: 'Cerrar'
+                            })
+                            exit()
+                            window.api.send('user:fetch');
+                            window.api.receive('user:fetch',  async (data) => {
+                         
+                            });
+                        } else {
+                            swal({
+                                title: 'Error!',
+                                text: 'Es un usuario Administrador',
+                                icon: 'error',
+                                confirmButtonText: 'Cerrar'
+                            }) 
+                        }
                     }
                 } else {
                     swal({
                         title: 'Error!',
-                        text: 'Contrasena incorrecta',
+                        text: 'Ususario no existe',
                         icon: 'error',
                         confirmButtonText: 'Cerrar'
-                    })
+                    })   
                 }
-            });
+            });     
+        } else {
+            swal({
+                title: 'Error!',
+                text: 'Falta algun campo!',
+                icon: 'error',
+                confirmButtonText: 'Cerrar'
+            })
         }
     }
     
@@ -118,9 +120,8 @@ class PermissionsButton extends React.Component{
             variant="contained"
             onClick={this.validate}
             margin="dense">
-            Conceder Permisos
+            Elimiar Usuario
             </Button>
-
         )
     }
 }
@@ -153,4 +154,4 @@ const styles = {
     }
 }
 
-export default Modal;
+export default ModalDelete;

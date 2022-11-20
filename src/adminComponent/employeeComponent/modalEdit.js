@@ -3,20 +3,28 @@ import React from 'react';
 import Portal from './portal';
 import {Button , Box}from '@mui/material';
 import swal from 'sweetalert';
+
 // Componentes usados
-import UsernameTextField from '../loginComponent/permissionsComponent/UsernameTextField'
-import PasswordTextField from '../loginComponent/permissionsComponent/PasswordTextField'
+import UsernameTextField from './formComponent/UsernameTextField'
+import PasswordTextField from './formComponent/PasswordTextField'
+import EntradaPickers from './formComponent/EntradaPickers'
+import SalidaPickers from './formComponent/SalidaPickers'
 
 // Variables para los datos del usuario
 var user = null;
 var pass = null;
+var entry = null;
+var out = null;
 var exit = null;
-class Modal extends React.Component{
+
+class ModalEdit extends React.Component{
     state = {
         user: "",
         pass: "",
+        entry: "",
+        out: "",
     }
-
+    
     userState = (childData) =>{
         this.setState({user: childData})
     }
@@ -25,13 +33,24 @@ class Modal extends React.Component{
         this.setState({pass: childData})
     )
 
+    entryState = (childData) =>(
+        this.setState({entry: childData})
+    )
+
+    outState = (childData) =>(
+        this.setState({out: childData})
+    )
+
     render(){
         const { children, toogle, active } = this.props;
+
         exit = toogle;
         user = this.state.user;
         pass = this.state.pass;
+        entry = this.state.entry;
+        out = this.state.out
+        
         return (
-            <div>
             <Portal>
                 {active && (
                     <div style={styles.wrapper}>
@@ -43,19 +62,19 @@ class Modal extends React.Component{
                                     <UsernameTextField parentCallback = {this.userState}/>
                                 </div>
                                 <div>
-                                    <PasswordTextField parentCallback = {this.passState}/>
+                                    <EntradaPickers parentCallback = {this.entryState}/>
                                 </div>
                                 <div>
-                                    <PermissionsButton/>
+                                    <SalidaPickers parentCallback = {this.outState}/>
+                                </div>
+                                <div>
+                                    <EditButton/>
                                 </div>
                             </Box>
                         </div>
                     </div>
                 )}
-                
             </Portal>
-            </div>
-
         );
     }
 }
@@ -73,42 +92,60 @@ class ButtonExit extends React.Component{
     }
 }
 
-class PermissionsButton extends React.Component{
+class EditButton extends React.Component{
+
+
     validate(){
-        if((user != '') && (pass != '')) {
+        if((user != '')) {
             window.api.send('user:load',user);
-      
-            window.api.receive('user:get', (data) => {
+            let t1 = entry.split(':'),t2 = out.split(':');;
+            let h = parseInt(t1[0]), m = parseInt(t1[1]), s = 0;
+            let he = new Date(new Date(new Date().setHours(h,m,s)).toISOString());
+     
+            h = parseInt(t2[0]);
+            m = parseInt(t2[1]);
+            let ho = new Date(new Date(new Date().setHours(h,m,s)).toISOString());
+            var newEntry = {
+                entrada: he,
+                salida: ho,
+            }
+
+            window.api.receive('user:get', (data) => {     
                 const data2 = JSON.parse(data);
-                if(data2.password == pass){
-                    if(data2.role == 'administrator'){ 
-                        //Esta harcodeado por que no pude hacerlo funcionar con sweatAlert o Modal
-                        window.location.pathname = '/inventoryPos'
+                if(data2 != null){
+                    if (data2.role != 'administrator') {
+                        window.api.send('user:update', {name:user} ,{$set:newEntry})
                         swal({
-                            title: 'Permiso Consedido!',
-                            text: 'Usuario tiene permiso del administrador',
+                            title: 'Exito!',
+                            text: 'Actualizacion Exitosa',
                             icon: 'success',
                             confirmButtonText: 'Cerrar'
                         })
                         exit()
-
-                    } else {
+                      } else {
                         swal({
                             title: 'Error!',
-                            text: 'Usuario no es administrador',
+                            text: 'Es un usuario Administrador',
                             icon: 'error',
                             confirmButtonText: 'Cerrar'
-                        })
+                        }) 
                     }
                 } else {
                     swal({
                         title: 'Error!',
-                        text: 'Contrasena incorrecta',
+                        text: 'Usuario no existe',
                         icon: 'error',
                         confirmButtonText: 'Cerrar'
-                    })
+                    })   
                 }
-            });
+            });     
+        } else {
+            swal({
+                title: 'Error!',
+                text: 'Falta algun campo!',
+                icon: 'error',
+                confirmButtonText: 'Cerrar'
+            })
         }
     }
     
@@ -118,9 +155,8 @@ class PermissionsButton extends React.Component{
             variant="contained"
             onClick={this.validate}
             margin="dense">
-            Conceder Permisos
+            Agregar Usuario
             </Button>
-
         )
     }
 }
@@ -153,4 +189,4 @@ const styles = {
     }
 }
 
-export default Modal;
+export default ModalEdit;

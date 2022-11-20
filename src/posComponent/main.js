@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import Button from "@mui/material/Button";
 import { Link } from 'react-router-dom';
 import Modal from './modal'
+import swal from "sweetalert";
 
 function getProduct(barcode){
     return new Promise((resolve, reject) => {
@@ -322,15 +323,18 @@ class PermissionsComponent extends React.Component{
   }
 
   render(){
-      
+    
       return(
           <div>
               <Button variant="contained" onClick={this.toogle} margin="dense">Pedir permisos</Button>
-              <Modal active ={this.state.active} toogle = {this.toogle}>
-                  <div>
-                      Ingrese Usuario Administrador
-                  </div>
-              </Modal>
+              <div>
+                <Modal active ={this.state.active} toogle = {this.toogle}>
+                    <div>
+                        Ingrese Usuario Administrador
+                    </div>
+                </Modal>
+                
+              </div>
           </div>
       );   
   }
