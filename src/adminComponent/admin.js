@@ -10,6 +10,8 @@ class Admin extends React.Component{
             <h1>
                 Administrator
             </h1>
+            <Link to="/employee">Empleado</Link>
+            <hr/>
             <Link to="/inventory">Inventario</Link>
             <hr/>
             <ProductsReport/>

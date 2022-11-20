@@ -71,10 +71,67 @@ ipcMain.on('products:add', async (e, listing) => {
 
 //--------  INICIO CONSULTAS DE EDGAR :) ------------
 ipcMain.on('user:load',  async (e, username) =>{
-    var users = MongoDB.getCollection('users');
-    var u = await Users.getUserByName(users, username);
-    mainWindow.webContents.send('user:get',JSON.stringify(u))
+    try {
+        var users = MongoDB.getCollection('users');
+        var u = await Users.getUserByName(users, username);
+        mainWindow.webContents.send('user:get',JSON.stringify(u))
+    } catch (err) {
+        console.log(err)
+
+    }
 })
+
+ipcMain.on('users:findAllUsers', async (e) => {
+    try{
+        var users = MongoDB.getCollection('users')
+        var pre = await Users.fetchUsers(users)
+        mainWindow.webContents.send('users:getAllUsers', JSON.stringify(pre))
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+ipcMain.on('users:insert',async (e, user) =>{
+    try{
+        var users = MongoDB.getCollection('users');
+        Users.insertUser(users, user)
+        mainWindow.webContents.send('users:insert', true)
+    } catch (err) {
+        mainWindow.webContents.send('users:insert', false)
+        console.log(err)
+    }
+})
+
+ipcMain.on('user:delete',async function deleteOneSale(x, element){
+    try{
+        var users = MongoDB.getCollection('users');
+        Users.deleteUser(users,element)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+ipcMain.on('user:fetch',async function getUser(){
+    try{
+        var users = MongoDB.getCollection('users');
+        mainWindow.webContents.send('users:fetch',await 
+        Users.fetchUsers(users))
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+
+ipcMain.on('user:update', async(e, original, data)=>{
+    try {
+        var users = MongoDB.getCollection('users');
+        Users.updateOneUser(users, original, data)
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+
 //--------  FIN CONSULTAS DE EDGAR :) ------------
 
 //--------  INICIO CONSULTAS DE ADRIAN :) ------------

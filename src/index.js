@@ -5,9 +5,11 @@ import './index.css';
 import Login from './loginComponent/login';
 import POS from './posComponent/main';
 import AddProduct from './adminComponent/addProductComponent/addProduct';
-import Admin from './adminComponent/admin'
-import Inventory from './adminComponent/inventoryComponent/inventario'
+import Admin from './adminComponent/admin';
+import Inventory from './adminComponent/inventoryComponent/inventario';
 import DeleteSales from './deleteSalesComponent/index';
+import Employee from './adminComponent/employeeComponent/employee';
+import InventoryPos from './posComponent/inventarioPos';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
 const container = document.getElementById('root');
@@ -24,6 +26,8 @@ root.render(
             <Route path='/addProduct' element={<AddProduct />} />
             <Route path='/inventory' element={<Inventory/>} />  
             <Route path='/deleteSales' element={<DeleteSales />} /> 
+            <Route path='/employee' element={<Employee/>}/>
+            <Route path='/inventoryPos' element={<InventoryPos/>}/>
           </Routes>
       </div>
     </BrowserRouter>

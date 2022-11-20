@@ -3,20 +3,22 @@ import React from 'react';
 import Portal from './portal';
 import {Button , Box}from '@mui/material';
 import swal from 'sweetalert';
+
 // Componentes usados
-import UsernameTextField from '../loginComponent/permissionsComponent/UsernameTextField'
-import PasswordTextField from '../loginComponent/permissionsComponent/PasswordTextField'
+import UsernameTextField from './formComponent/UsernameTextField'
+import PasswordTextField from './formComponent/PasswordTextField'
 
 // Variables para los datos del usuario
 var user = null;
 var pass = null;
 var exit = null;
-class Modal extends React.Component{
+
+class ModalEdit extends React.Component{
     state = {
         user: "",
         pass: "",
     }
-
+    
     userState = (childData) =>{
         this.setState({user: childData})
     }
@@ -27,11 +29,12 @@ class Modal extends React.Component{
 
     render(){
         const { children, toogle, active } = this.props;
+
         exit = toogle;
         user = this.state.user;
         pass = this.state.pass;
+
         return (
-            <div>
             <Portal>
                 {active && (
                     <div style={styles.wrapper}>
@@ -46,16 +49,13 @@ class Modal extends React.Component{
                                     <PasswordTextField parentCallback = {this.passState}/>
                                 </div>
                                 <div>
-                                    <PermissionsButton/>
+                                    <EditButton/>
                                 </div>
                             </Box>
                         </div>
                     </div>
                 )}
-                
             </Portal>
-            </div>
-
         );
     }
 }
@@ -73,42 +73,46 @@ class ButtonExit extends React.Component{
     }
 }
 
-class PermissionsButton extends React.Component{
+class EditButton extends React.Component{
     validate(){
-        if((user != '') && (pass != '')) {
+        if((user != '') || (pass != '')) {
             window.api.send('user:load',user);
-      
-            window.api.receive('user:get', (data) => {
+            window.api.receive('user:get', (data) => {     
                 const data2 = JSON.parse(data);
-                if(data2.password == pass){
-                    if(data2.role == 'administrator'){ 
-                        //Esta harcodeado por que no pude hacerlo funcionar con sweatAlert o Modal
-                        window.location.pathname = '/inventoryPos'
+                if(data2 != null ){
+                    if(data2.role != 'administrator'){
+                        window.api.send('user:update', {name:user} ,{$set:{password:pass}})
                         swal({
-                            title: 'Permiso Consedido!',
-                            text: 'Usuario tiene permiso del administrador',
+                            title: 'Exito!',
+                            text: 'Actualizacion Exitosa',
                             icon: 'success',
                             confirmButtonText: 'Cerrar'
-                        })
+                        }) 
                         exit()
-
                     } else {
                         swal({
                             title: 'Error!',
-                            text: 'Usuario no es administrador',
+                            text: 'Es un usuario Administrador',
                             icon: 'error',
                             confirmButtonText: 'Cerrar'
-                        })
+                        }) 
                     }
                 } else {
                     swal({
                         title: 'Error!',
-                        text: 'Contrasena incorrecta',
+                        text: 'Usuario no existe',
                         icon: 'error',
                         confirmButtonText: 'Cerrar'
-                    })
+                    })   
                 }
-            });
+            });     
+        } else {
+            swal({
+                title: 'Error!',
+                text: 'Falta algun campo!',
+                icon: 'error',
+                confirmButtonText: 'Cerrar'
+            })
         }
     }
     
@@ -118,9 +122,8 @@ class PermissionsButton extends React.Component{
             variant="contained"
             onClick={this.validate}
             margin="dense">
-            Conceder Permisos
+            Cambiar Contrasena
             </Button>
-
         )
     }
 }
@@ -153,4 +156,4 @@ const styles = {
     }
 }
 
-export default Modal;
+export default ModalEdit;
