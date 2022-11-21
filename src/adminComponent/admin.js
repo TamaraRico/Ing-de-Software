@@ -1,28 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Menu from './menuComponent/menu'
 import ProductsReport from './productsReportComponent/index';
 import ProvidersReport from './providersReportComponent/index';
+
+import SalesGraph from "./stadisticsComponent/stadistics";
+
+import './styles.css';
 
 class Admin extends React.Component{
     render(){
         return(
-        <div>
-            <h1>
-                Administrator
-            </h1>
-            <Link to="/employee">Empleado</Link>
-            <hr/>
-            <Link to="/inventory">Inventario</Link>
-            <hr/>
-            <ProductsReport/>
-            <hr/>
-            <ProvidersReport/>
-            <hr/>
-            <Link to="/deleteSales">Eliminar ventas o q</Link>
-            <hr/>
-            <Link to="/">No soy logout pero regresame al login jaja</Link>
+        <div className="view-container">
+            <Menu />
+            <div id="main">
+                <h1>DASHBOARD</h1>
+                <h7><b>INICIO/</b>Dashboard</h7>
+                <SalesGraph />
+                <ProductsReport/>
+                <ProvidersReport/>
+            </div>
         </div>)
     }
 }
+
+//PARA ELIMINAR VENTAS
+//<Link to="/deleteSales">Eliminar ventas o q</Link>
 
 export default(Admin)

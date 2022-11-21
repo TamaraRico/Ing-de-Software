@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import Button from "@mui/material/Button";
 import { Link } from 'react-router-dom';
 import Modal from './modal'
-import swal from "sweetalert";
 
 function getProduct(barcode){
     return new Promise((resolve, reject) => {

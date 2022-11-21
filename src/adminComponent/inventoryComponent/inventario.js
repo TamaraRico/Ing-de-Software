@@ -1,6 +1,6 @@
 import React from "react";
+import Menu from "../menuComponent/menu"
 import "./inventario.css";
-import Button from "@mui/material/Button";
 
 function getInventory() {
   return new Promise((resolve, reject) => {
@@ -45,9 +45,12 @@ class Inventory extends React.Component {
   
   render() {
     return (
-      <div className="App">
-        <h3>Inventario</h3>
-        <table>
+      <div className="view-container">
+      <Menu />
+      <div id="main">
+      <h1>INVENTARIO</h1>
+      <h7><b>INICIO/</b>Inventario</h7>
+      <table>
           <thead>
             <tr>
               <th>id</th>
@@ -78,23 +81,9 @@ class Inventory extends React.Component {
                   </tr>
               ))}
           </tbody>
-        </table>
-        <ReturnButton />
+      </table>
       </div>
-    );
-  }
-}
-
-class ReturnButton extends React.Component {
-  validate() {
-    window.location.pathname = "/admin";
-  }
-
-  render() {
-    return (
-      <Button variant="contained" onClick={this.validate}>
-        Regresar
-      </Button>
+      </div>
     );
   }
 }

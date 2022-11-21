@@ -1,15 +1,16 @@
 import React from "react";
 import "./employee.css";
 import Button from "@mui/material/Button";
+import Menu from "../menuComponent/menu";
 
 import ModalAdd from "./modalAdd";
-import ModalEdit from "./modalEdit"
+import ModalEdit from "./modalEdit";
 import ModalDelete from "./modalDelete";
-import ModalPass from "./modalPass"
+import ModalPass from "./modalPass";
 
 function getUsers() {
   return new Promise((resolve, reject) => {
-    window.api.send('users:findAllUsers');
+    window.api.send("users:findAllUsers");
 
     window.api.receive("users:getAllUsers", (data) => {
       resolve(data);
@@ -18,69 +19,67 @@ function getUsers() {
 }
 
 class Employee extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
-      users : [],
+      users: [],
       reload: false,
     };
 
     this.fetchUsers = this.fetchUsers.bind(this);
   }
 
-  reloadState = (childData) => (
-    this.setState({ reload: childData })
-  )
+  reloadState = (childData) => this.setState({ reload: childData });
+
   fetchUsers() {
     getUsers().then((data) => {
       if (data !== "null") {
         const dataUser = JSON.parse(data);
         var dropAdmin = new Array();
-        
-        
+
         for (let i = 0; i < dataUser.length; i++) {
-          if(dataUser[i].role == 'employee'){
-            dropAdmin.push(dataUser[i])
+          if (dataUser[i].role == "employee") {
+            dropAdmin.push(dataUser[i]);
           }
         }
-        
-        this.setState({
-          users : dropAdmin
-        });
 
+        this.setState({
+          users: dropAdmin,
+        });
       } else {
-        throw console.error("no hay usuarios en la base de datos", this.state.users);
+        throw console.error(
+          "no hay usuarios en la base de datos",
+          this.state.users
+        );
       }
     });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.fetchUsers();
   }
 
-  /// A como funciona mi codigo creo que esta bien 
+  /// A como funciona mi codigo creo que esta bien
   /// Segun a lo que encontre no es reload
-  componentDidUpdate(){
-    if(this.state.reload){
+  componentDidUpdate() {
+    if (this.state.reload) {
       this.fetchUsers();
-      this.setState({reload: false})
+      this.setState({ reload: false });
     }
   }
 
   render() {
     return (
-      <div className="App" >
-        <div>
-          <h3>Empleados</h3>
-        </div>
-        <div>
+      <div className="view-container">
+        <Menu />
+        <div id="main">
+          <h1>EMPLEADOS</h1>
+          <h7><b>INICIO/</b>Empleados</h7>
           <AddButton parentCallback={this.reloadState} />
           <DeleteButton parentCallback={this.reloadState} />
           <EditButton parentCallback={this.reloadState} />
-          <PassEditButton/>
-        </div>
-        <div>
+          <PassEditButton />
           <table>
             <thead>
               <tr>
@@ -94,64 +93,45 @@ class Employee extends React.Component {
             </thead>
             <tbody>
               {this.state.users.map((val, key) => (
-                    <tr usersId = {key}>
-                      <td>{val._id}</td>
-                      <td>{val.name}</td>
-                      <td>{val.entrada}</td>
-                      <td>{val.salida}</td>
-                      <td>{val.checkin}</td>
-                      <td>{val.checkout}</td>
-                    </tr>
-                ))}
+                <tr usersId={key}>
+                  <td>{val._id}</td>
+                  <td>{val.name}</td>
+                  <td>{val.entrada}</td>
+                  <td>{val.salida}</td>
+                  <td>{val.checkin}</td>
+                  <td>{val.checkout}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-        
-        <ReturnButton />
       </div>
     );
   }
 }
 
-class ReturnButton extends React.Component {
-  validate() {
-    window.location.pathname = "/admin";
-  }
+class AddButton extends React.Component {
+  state = {
+    active: false,
+  };
+
+  toogle = () => {
+    this.setState({ active: !this.state.active });
+    this.props.parentCallback(this.state.active);
+  };
 
   render() {
     return (
-      <Button variant="contained" onClick={this.validate}>
-        Regresar
-      </Button>
+      <div>
+        <Button variant="text" onClick={this.toogle} margin="dense">
+          Agregar Epleado
+        </Button>
+        <ModalAdd active={this.state.active} toogle={this.toogle}>
+          <div>Ingrese Nuevo Usuario</div>
+        </ModalAdd>
+      </div>
     );
   }
-}
-
-class AddButton extends React.Component {
-
-  state = {
-    active: false,
-  }
-
-
-  toogle = () =>{
-    this.setState({active: !this.state.active});
-    this.props.parentCallback(this.state.active);
-  }
-
-  render(){
-    
-    return(
-        <div>
-            <Button variant="text" onClick={this.toogle} margin="dense">Agregar Epleado</Button>
-            <ModalAdd active ={this.state.active} toogle = {this.toogle}>
-                <div>
-                    Ingrese Nuevo Usuario
-                </div>
-            </ModalAdd>
-        </div>
-    );   
-}
   validate() {
     window.location.pathname = "/admin";
   }
@@ -160,22 +140,22 @@ class AddButton extends React.Component {
 class DeleteButton extends React.Component {
   state = {
     active: false,
-  }
+  };
 
-  toogle = () =>{
-    this.setState({active: !this.state.active});
+  toogle = () => {
+    this.setState({ active: !this.state.active });
     this.props.parentCallback(this.state.active);
-  }
+  };
   render() {
     return (
       <div>
-            <Button variant="text" onClick={this.toogle} margin="dense">Eliminar Empleado</Button>
-            <ModalDelete active ={this.state.active} toogle = {this.toogle}>
-                <div>
-                    Ingrese Usuario
-                </div>
-            </ModalDelete>
-        </div>
+        <Button variant="text" onClick={this.toogle} margin="dense">
+          Eliminar Empleado
+        </Button>
+        <ModalDelete active={this.state.active} toogle={this.toogle}>
+          <div>Ingrese Usuario</div>
+        </ModalDelete>
+      </div>
     );
   }
 }
@@ -183,22 +163,21 @@ class DeleteButton extends React.Component {
 class EditButton extends React.Component {
   state = {
     active: false,
-  }
+  };
 
-  toogle = () =>{
-    this.setState({active: !this.state.active});
+  toogle = () => {
+    this.setState({ active: !this.state.active });
     this.props.parentCallback(this.state.active);
-
-  }
+  };
 
   render() {
     return (
       <div>
-        <Button variant="text" onClick={this.toogle} margin="dense">Editar Horario</Button>
-        <ModalEdit active ={this.state.active} toogle = {this.toogle}>
-            <div>
-                Ingrese Usuario
-            </div>
+        <Button variant="text" onClick={this.toogle} margin="dense">
+          Editar Horario
+        </Button>
+        <ModalEdit active={this.state.active} toogle={this.toogle}>
+          <div>Ingrese Usuario</div>
         </ModalEdit>
       </div>
     );
@@ -208,21 +187,21 @@ class EditButton extends React.Component {
 class PassEditButton extends React.Component {
   state = {
     active: false,
-  }
+  };
 
-  toogle = () =>{
-    this.setState({active: !this.state.active});
+  toogle = () => {
+    this.setState({ active: !this.state.active });
     this.props.parentCallback(this.state.active);
-  }
+  };
 
   render() {
     return (
       <div>
-        <Button variant="text" onClick={this.toogle} margin="dense">Cambiar contrasena</Button>
-        <ModalPass active ={this.state.active} toogle = {this.toogle}>
-            <div>
-                Ingrese Usuario
-            </div>
+        <Button variant="text" onClick={this.toogle} margin="dense">
+          Cambiar contrasena
+        </Button>
+        <ModalPass active={this.state.active} toogle={this.toogle}>
+          <div>Ingrese Usuario</div>
         </ModalPass>
       </div>
     );
@@ -230,4 +209,3 @@ class PassEditButton extends React.Component {
 }
 
 export default Employee;
-
