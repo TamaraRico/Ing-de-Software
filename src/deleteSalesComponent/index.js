@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { DateRangePicker } from 'vanillajs-datepicker';
 import CreateSalesTable from "./CreateSalesTable";
 import AppendScores from "./AppendScores";
 import EventListeners from "./EventListeners";
@@ -42,6 +40,10 @@ export default class DeleteSales extends React.Component {
   render(){
     return(
         <>
+          <h1 className="title-graph">Ventas realizadas</h1>
+          <br />
+          <br />
+
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.2.0/dist/css/datepicker.min.css"/>
           <div id="calendar">
             <input type="text" name="start"/>
@@ -56,11 +58,7 @@ export default class DeleteSales extends React.Component {
           </div>
           <button id="prevButton">Previous</button> 
           <button id="nextButton">Next</button> 
-          <hr/>
-          <Link to="/admin">Regresar</Link>
         </>
-
-
     );
   }
 }

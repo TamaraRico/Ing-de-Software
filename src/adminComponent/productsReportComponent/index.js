@@ -139,8 +139,8 @@ export default class ProductsReport extends React.Component {
   
   render(){
     return(
-      <div class = "container">
-        <Button variant="contained" onClick={this.generateReport}>Generar reporte de productos</Button>
+      <div className= "container">
+        <Button variant="contained" size="large" onClick={this.generateReport}>Productos</Button>
       </div>
     );
   }

@@ -1,6 +1,8 @@
-import React from "react";
+
 import CreateSalesTable from "./CreateSalesTable";
+
 import {global_variables} from './index';
+
 function AppendScores(element) {
     global_variables.elements++
     const table = document.querySelector('.table')

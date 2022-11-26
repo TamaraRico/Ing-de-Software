@@ -1,8 +1,8 @@
-import React from "react";
 import { DateRangePicker } from 'vanillajs-datepicker';
 import CreateSalesTable from "./CreateSalesTable";
 import AppendScores from "./AppendScores";
 import {global_variables} from './index';
+
 function EventListeners() {
     //Componentes con eventos
     const submit = document.getElementById('submit');
