@@ -435,7 +435,7 @@ class ProductsComponent extends React.Component {
                 <td id>{product.barcode}</td>
                 <td>{product.name}</td>
                 <td>{product.price}</td>
-                <td onClick={this.handleEditProduct}>{product.quantity}&nbsp;<FontAwesomeIcon id="baricons" icon="delete-left"/></td>
+                <td onClick={this.handleEditProduct}>{product.quantity}&nbsp;<FontAwesomeIcon id="delete-icon" icon="delete-left"/></td>
               </tr>
             ))}
           </tbody>
