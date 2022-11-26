@@ -1,150 +1,139 @@
-import React, {Fragment, useState} from 'react';
-import { Link } from 'react-router-dom';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Grid, InputAdornment, MenuItem } from "@mui/material";
+import Swal from "sweetalert2";
 
-export default function AddProduct () {
-    const [product, setProduct] =useState({
-        name: '',
-        category: '',
-        manufacture: '',
-        providerCode: '',
-        quantity: null,
-        priceUnit: null,
-        price: null
-    });
-
-    const handleChange = (e) => {
-        setProduct({
-            ...product,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        window.api.send('product:searchOne',product.name);
-
-        const formData = new FormData();
-        formData.append('name', product.name);
-        formData.append('category', product.category);
-        formData.append('manufacture', product.manufacture);
-        formData.append('providerCode', product.providerCode);
-        formData.append('quantity', product.quantity);
-        formData.append('priceUnit', product.priceUnit);
-        formData.append('price', product.price);
-
-        window.api.receive('product:get', (data) => {
-            const data2 = JSON.parse(data);
-            if(data2){
-                console.log("Producto ya registrado")
-            } else {
-                window.api.send('product:add', formData);
-                window.api.receive('product:get', (data) => {
-                    const data2 = JSON.parse(data);
-                    if(data2){
-                        console.log("El producto se registro correctamente")
-                    } else {
-                        console.log("Error al registrar el producto")
-                    }
-                });
-            }
-        });
+const categories = [
+    {
+        value: 'Papeleria',
+        label: 'Papeleria',
+    },
+    {
+        value: 'Miscelanea',
+        label: 'Miscelanea',
+    },
+    {
+        value: 'Regalos',
+        label: 'Regalos',
     }
+]
+export default function AddProduct() {
+  const [open, setOpen] = React.useState(false);
+  const [category, setCategory] = React.useState('Papeleria');
 
-        return(
-            <div>
-            <Fragment>
-                <h2>Agregar producto</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="productName">Nombre del producto: </label>
-                        <input type="text" 
-                        className="form-control" 
-                        name="productName" 
-                        placeholder="Nombre del producto"
-                        defaultValue={product.name}
-                        onChange={handleChange}
-                        required/>
-                    </div>
+  const handleClickOpen = (event) => {
+    event.preventDefault();
+    setOpen(true);
+  };
 
-                    <div className="form-group">
-                        <label htmlFor="productCategory">Categoria: </label>
-                        <input type="text" 
-                        className="form-control" 
-                        name="productCategory" 
-                        placeholder="Categoria"
-                        defaultValue={product.category}
-                        onChange={handleChange}
-                        required/>
-                    </div>
+  const handleClose = (event) => {
+    event.preventDefault();
+    setOpen(false);
+  };
 
-                    <div className="form-group">
-                        <label htmlFor="productManufacture">Fabricante: </label>
-                        <input type="text" 
-                        className="form-control" 
-                        name="productManufacture" 
-                        placeholder="Fabricante"
-                        defaultValue={product.manufacture}
-                        onChange={handleChange}
-                        required/>
-                    </div>
+  const handleChangeCategory = (event) => {
+    event.preventDefault();
+    setCategory(event.target.value);
+  }
 
-                    <div className="form-group">
-                        <label htmlFor="productProviderCode">Codigo del proveedor: </label>
-                        <input type="text" 
-                        className="form-control" 
-                        name="productProviderCode" 
-                        placeholder="Codigo del proveedor"
-                        defaultValue={product.providerCode}
-                        onChange={handleChange}
-                        required/>
-                    </div>
+  const handleAddProduct = (event) => {
+    event.preventDefault();
 
-                    <div className="form-group">
-                        <label htmlFor="productQuantity">Cantidad: </label>
-                        <input type="number" 
-                        step="1"
-                        min="0"
-                        className="form-control" 
-                        name="productQuantity" 
-                        placeholder="Cantidad"
-                        defaultValue={product.quantity}
-                        onChange={handleChange}
-                        required/>
-                    </div>
+    //HOW TO GET DATA FROM DIALOG
+    window.api.send('product:getByBarcode',window.document.getElementById('barcode').value);
+    //'product:getOne'
 
-                    <div className="form-group">
-                        <label htmlFor="productPriceUnit">Precio unitario: </label>
-                        <input type="number" 
-                        step="1"
-                        min="0"
-                        className="form-control" 
-                        name="productPriceUnit" 
-                        placeholder="Precio unitario"
-                        defaultValue={product.priceUnit}
-                        onChange={handleChange}
-                        required/>
-                    </div>
+    window.api.receive('product:getOne', (data) => {
+        const data2 = JSON.parse(data);
+        if(data2 != null){
+            Swal.fire({
+                title: 'Error!',
+                text: 'Producto con codigo ya existente',
+                icon: 'error',
+                timer: 2000
+            })
+        }else{
+            const formData = {
+                'barcode'         : window.document.getElementById('barcode').value,
+                'category'        : category,
+                'name'            : window.document.getElementById('name').value,
+                'quantity'        : parseInt(window.document.getElementById('quantity').value),
+                'priceUnit'       : parseInt(window.document.getElementById('price').value),
+                'price'           : parseInt(window.document.getElementById('salePrice').value),
+                'manufacture'     : window.document.getElementById('manufacture').value,
+                'lastPurchase'    : new Date(window.document.getElementById('lastPurchase').value),
+                'providerCode'    : window.document.getElementById('providerCode').value,
+                'discountPercent' : 0,
+                'hasDiscount'     : false
+            };
+            window.api.send('products:add', formData);
+            Swal.fire({
+                title: 'Correcto!',
+                text: 'Producto registrado con exito!',
+                icon: 'success',
+                timer: 2000
+            })
+            setOpen(false);
+        }
+    })
+  };
 
-                    <div className="form-group">
-                        <label htmlFor="productPrice">Precio: </label>
-                        <input type="number" 
-                        step="1"
-                        min="0"
-                        className="form-control" 
-                        name="productPrice" 
-                        placeholder="Precio"
-                        defaultValue={product.price}
-                        onChange={handleChange}
-                        required/>
-                    </div>
-
-                    <button type="submit" className="btn btn-primary">Guardar</button>
-                </form>
-            </Fragment>
-            <Link to="/pos">Ir a main</Link>
-            </div>
-        )
+  return (
+    <div>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Agregar Producto
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Dar de alta nuevo producto</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Verificar correctamente todos los campos
+          </DialogContentText>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextField fullWidth autoFocus margin="dense" id="barcode" label="Codigo de barras" type="text" variant="filled" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField fullWidth margin="dense" id="name" label="Nombre" type="text" variant="filled" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField fullWidth select margin="dense" id="category" label="Categoria" variant="filled" value={category} onChange={handleChangeCategory}>{
+                categories.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>{option.label}</MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField fullWidth margin="dense" id="quantity" label="Cantidad en almacen" type="text" variant="filled" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField fullWidth margin="dense" id="price" label="Precio unitario" type="text" variant="filled" InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}/>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField fullWidth margin="dense" id="salePrice" label="Precio de venta" type="text" variant="filled" InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}/>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField fullWidth margin="dense" id="manufacture" label="Manufactura" type="text" variant="filled"/>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField fullWidth margin="dense" id="lastPurchase" label="Ultimo dia de compra" type="text" variant="filled" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <TextField fullWidth margin="dense" id="providerCode" label="Codigo de proveedor" type="text" variant="filled" />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cerrar</Button>
+          <Button onClick={handleAddProduct}>Agregar</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
-
-/* export default withRouter(AddProduct); */

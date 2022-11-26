@@ -1,0 +1,26 @@
+.internalActions {
+    margin: 28px;
+    border: 8px solid rgb(181, 131, 141);
+    border-radius: 23px;
+    padding: 10px
+}
+
+.sellActions {
+    margin: 28px;
+    border: 8px solid rgb(109, 104, 117);
+    border-radius: 23px;
+    padding: 10px
+}
+
+.productsComponent {
+    margin: 28px;
+    margin-left: 0;
+    border: 8px solid rgb(91, 91, 91);
+    border-radius: 23px;
+    padding: 32px;
+}
+
+#baricons {
+    position :relative;
+    color: red;
+}

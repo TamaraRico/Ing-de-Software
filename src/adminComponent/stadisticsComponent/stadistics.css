@@ -1,0 +1,41 @@
+
+.graph-card {
+    transition: margin-left 1s;
+    margin-top: 32px;
+    align-items: center;
+    background-color: white;
+    padding: 15px;
+    border-radius: 25px;
+    position: relative;
+}
+
+.card {
+    transition: margin-left 1s;
+    margin-top: 32px;
+    align-items: center;
+    background-color: white;
+    padding: 15px;
+    border-radius: 25px;
+}
+
+.title-graph {
+    display: absolute;
+}
+
+.time-lapse {
+    display: relative;
+    margin-bottom: 32px;
+}
+.total-sales {
+    color: rgb(255, 180, 162);
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-weight: bold;
+}
+
+#sales-graph {
+    margin-top: 10px;
+    bottom: 0;
+    height: 300px;
+}

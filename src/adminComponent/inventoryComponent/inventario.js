@@ -1,6 +1,8 @@
 import React from "react";
 import Menu from "../menuComponent/menu"
-import "./inventario.css";
+import AddProduct from '../addProductComponent/addProduct';
+import { Grid } from "@mui/material";
+import {StickyTable} from "./inventoryTable";
 
 function getInventory() {
   return new Promise((resolve, reject) => {
@@ -32,6 +34,8 @@ class Inventory extends React.Component {
         var newProducts = this.state.products.concat(dataInventory)
         this.setState({
           products : newProducts
+        }, () => {
+          console.log("Datos desde inventario.js: ", this.state.products)
         });
       } else {
         throw console.error("no hay productos en la base de datos", this.state.products);
@@ -46,43 +50,23 @@ class Inventory extends React.Component {
   render() {
     return (
       <div className="view-container">
-      <Menu />
-      <div id="main">
-      <h1>INVENTARIO</h1>
-      <h7><b>INICIO/</b>Inventario</h7>
-      <table>
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>Codigo de Barras</th>
-              <th>Categoria</th>
-              <th>Nombre</th>
-              <th>Cantidad en almacen</th>
-              <th>Precio unitario</th>
-              <th>Precio de venta</th>
-              <th>Manufactura</th>
-              <th>Última compra</th>
-              <th>Proveedor</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.products.map((val, key) => (
-                  <tr productId = {key}>
-                    <td>{val._id}</td>
-                    <td>{val.barcode}</td>
-                    <td>{val.category}</td>
-                    <td>{val.name}</td>
-                    <td>{val.quantity}</td>
-                    <td>{val.priceUnit}</td>
-                    <td>{val.price}</td>
-                    <td>{val.manufacture}</td>
-                    <td>{val.lastPurchase}</td>
-                    <td>{val.providerCode}</td>
-                  </tr>
-              ))}
-          </tbody>
-      </table>
-      </div>
+        <Menu />
+        <div id="main">
+          <h1>INVENTARIO</h1>
+          <h7><b>INICIO/</b>Inventario</h7>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12}>
+              <div class="card">
+                <AddProduct />
+              </div>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <div class="card">
+                {this.state.products.length > 0 ? <StickyTable data={this.state.products}/> : null}
+              </div>
+            </Grid>
+          </Grid>
+        </div>
       </div>
     );
   }

@@ -1,10 +1,8 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import {Chart as ChartJS, LineElement, PointElement, CategoryScale, Title, LinearScale, Tooltip, Filler} from 'chart.js'
+import 'chart.js/auto'
 
 import './stadistics.css';
-
-ChartJS.register(LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale, Filler)
 
 function getSalesByDate(start, end){
     return new Promise((resolve, reject) => {
@@ -15,18 +13,17 @@ function getSalesByDate(start, end){
     })
 }
 
-class SalesGraph extends React.Component {
+class TrafficGraph extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-          options: {},
-          data: {},
-          actions : {},
-          total: 0,
-
+          optionsT: {},
+          dataT: {},
+          update : 0,
+          startWeek : "",
+          currentWeek : "",
         };
-
         this.getComponentsForGraph = this.getComponentsForGraph.bind(this)
     }
 
@@ -35,60 +32,61 @@ class SalesGraph extends React.Component {
     }
 
     getComponentsForGraph(){
-        var currentMonth = new Date()
-        var lastMonth = new Date()
-        lastMonth.setMonth(lastMonth.getMonth() - 1)
+        var currentWeek = new Date()
+        var lastWeek = new Date()
+        lastWeek.setDate(lastWeek.getDate() - 7)
 
-        var totalSales = []
-        var grandTotalSales = 0
-        getSalesByDate(lastMonth, currentMonth).then((data) => {
+        var totalTraffic= []
+        var daylist = []
+        getSalesByDate(lastWeek, currentWeek).then((data) => {
             data.forEach(element => {
-                totalSales.push(element.total)
-                grandTotalSales += element.total
+                totalTraffic.push(element.total)
+                daylist.push(new Date(element.factured_date).toLocaleDateString())
             });
         }).finally(() => {
-            var daylist = []
 
-            for(let i = 0; i < totalSales.length; i++){
-                daylist.push(i + 1)
-            }
-
-            const data = {
+            const data2 = {
                 labels: daylist,
                 datasets : [
                     {
-                        data : totalSales,
-                        borderColor: 'rgb(255, 180, 162)',
-                        backgroundColor: 'rgba(255, 180, 162, 0.5)',
-                        fill : 'start',
+                        label : 'Venta por dia',
+                        data : totalTraffic,
+                        backgroundColor: 'rgb(255, 180, 162)',
+                        fill: 'start',
                         lineTension : 0.4
                     },
                 ],
             }
     
-            const config = {
-                responsive : true,
+            const config2 = {
+                responsive: true,
+                maintainAspectRatio: false,
                 options : {
                     plugins : {
                         interaction : {
                             intersect : false
                         }
                     }
-                }
+                },
+                scales: {
+                    x: {
+                      grid: {
+                        display: false
+                      }
+                    },
+                    y: {
+                      grid: {
+                        display: false
+                      }
+                    }
+                  },
             }
-
-            const actions = {
-                handler(chart) {
-                    chart.options.elements.line.tension = 0.4
-                    chart.update()
-                }
-            }
-
             this.setState({
-                options : config,
-                data : data,
-                actions : actions,
-                total : grandTotalSales,
+                optionsT : config2,
+                dataT : data2,
+                startWeek: lastWeek.toDateString(),
+                currentWeek : currentWeek.toDateString(),
+                update: 1,
             }, () => {
                 console.log("Parameters for graph gathered!")
             })
@@ -97,17 +95,15 @@ class SalesGraph extends React.Component {
 
     render(){
         return(
-            <div className="card">
-                <h1 className="title-graph">Ventas</h1>
-                <p className="time-lapse">Nov - Dic 2022</p>
-                <h1>$<span className="total-sales">11,230</span></h1>
-                <div id = "sales-graph">{
-                    this.state.total != 0 ? <Line options={this.state.options} data={this.state.data}/> : null
+            <div className="graph-card">
+                <h1 className="title-graph">Estadistica de trafico</h1>
+                <p className="time-lapse">{this.state.startWeek} - {this.state.currentWeek}</p>
+                <div id="sales-graph">{
+                    this.state.update != 0 ? <Line id="2" options={this.state.optionsT} data={this.state.dataT} updateMode = "resize" redraw = 'true'/> : null
                 }</div>
             </div>
         )
     }
 }
 
-export default(SalesGraph)
-
+export {TrafficGraph}
