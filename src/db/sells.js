@@ -9,6 +9,8 @@ const fetchSales = async (sells) => {
         while(await res.hasNext()) {
             const doc = await res.next();
             doc._id = (doc._id).toString()
+            doc.purchased_products = (doc.purchased_products).length
+            doc.factured_date = new Date(doc.factured_date).toISOString()
             aux.push(doc)
         }
     } catch (err) {
@@ -18,6 +20,7 @@ const fetchSales = async (sells) => {
 }
 
 const fetchSalesByDate = async (sells, start, end) => {
+    console.log(start, end)
     try{
         var query = {
             factured_date: {
@@ -31,6 +34,8 @@ const fetchSalesByDate = async (sells, start, end) => {
         while(await res.hasNext()) {
             const doc = await res.next();
             doc._id = (doc._id).toString()
+            doc.purchased_products = (doc.purchased_products).length
+            doc.factured_date = new Date(doc.factured_date).toISOString()
             aux.push(doc)
         }
     } catch (err) {

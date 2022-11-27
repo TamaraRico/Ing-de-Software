@@ -63,23 +63,67 @@ class LoginButton extends React.Component{
   validate() {
       if ((user != null) && (pass != null)) {
         window.api.send('user:load', user);
-
         window.api.receive('user:get', (data) => {
           const data2 = JSON.parse(data);
           if (data != null) {
             if (data2.password == pass) {
-              swal({
-                title: 'Sesion Iniciada!',
-                text: 'Sesion iniciada correctamente!',
-                icon: 'success',
-                confirmButtonText: 'Aceptar'
-
-              })
+              //INICIO MODIFICACION CHECKIN by IRVIN miau
+              localStorage.setItem('usuario', data2.name) //NO ME BORREN ESTA LINEA AAAAAAAAAAAAAAAAAAAA
+              let path = ""
+              let str = ""
+              let acceso = false
               if (data2.role == 'administrator') {
-                window.location.pathname = "/admin"
+                path = "/admin"
+                acceso = true
               } else {
-                window.location.pathname = "/pos";
+                let checkin = new Date()
+                
+                let entrada = new Date(new Date(data2.entrada).toISOString())
+                let last_checkout = new Date(new Date(data2.checkout).toISOString()) 
+                
+                //HORA DE PRUEBA
+                entrada = new Date() //QUITAR AL TERMINAR EL DESARROLLO
+                console.log(entrada)
+                let entrada_min = new Date(entrada.getTime() - 10*60000)
+                let entrada_max = new Date(entrada.getTime() + 10*60000)
+
+
+                //10 minutos de tolerancia antes y despues de empezar la jornada
+                if(checkin >= entrada_min && checkin <= entrada_max && last_checkout.getDay() !== checkin.getDay()){
+                  acceso = true
+                  str = "Sesion iniciada correctamente!"
+                  window.api.send('users:checkin', data2._id, checkin);
+                }
+                else{
+                  //Si ya no se esta en la tolerancia se checa si se inicio sesion antes para retomar la jornada
+                  if(new Date(data2.checkin).getDay() === checkin.getDay() && last_checkout.getDay() !== checkin.getDay()){
+                    str = "Retomando la sesion...🐥"
+                    acceso = true
+                  }
+                  //Si llega aca es porque ni hizo el checkin ni esta en horario laboral jaja q wei
+                }
+                path = "/pos";
               }
+              if(acceso){
+                swal({
+                  title: 'Sesion Iniciada!',
+                  text: str,
+                  icon: 'success',
+                  confirmButtonText: 'Aceptar',
+                  timer: 500
+                })
+                window.location.pathname = path
+              }
+
+              else
+                swal({
+                  title: 'Acceso no concedido',
+                  text: 'Inicio de sesion fuera de horario permitido',
+                  icon: 'error',
+                  confirmButtonText: 'Aceptar'
+
+                })
+              //FIN MODIFICACION CHECKIN
             } else {
               swal({
                 title: 'Error!',

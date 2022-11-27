@@ -3,7 +3,7 @@ import React from "react";
 import Menu from './menuComponent/menu'
 import ProductsReport from './productsReportComponent/index';
 import ProvidersReport from './providersReportComponent/index';
-import DeleteSales from "../deleteSalesComponent";
+import DeleteSales from "./deleteSalesComponent";
 import {TrafficGraph} from "./stadisticsComponent/stadistics";
 import './styles.css';
 

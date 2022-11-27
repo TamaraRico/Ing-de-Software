@@ -1,6 +1,7 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Swal from "sweetalert2";
+import swal from 'sweetalert';
 import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
 import Modal from './modal'
@@ -457,16 +458,90 @@ CLASS TO HANDLE INTERNAL ACTIONS
     -> CORTE DE CAJA EN Z
 */
 class InternalActions extends React.Component {
-    render(){
-        return (
-          <div className="internalActions">
-			<h2>ACCIONES INTERNAS</h2>
-          	<Button>Movimiento Interno</Button>
-          	<Button>Corte de caja en X</Button>
-          	<Button>Corte de caja en Z</Button>
-          </div>
-        );
-    }
+  logout(){
+    window.api.send('user:load', localStorage.getItem('usuario'));
+    window.api.receive('user:get', (logged_employee) => {
+      const data = JSON.parse(logged_employee);
+      let checkout = new Date()
+      let salida = new Date(new Date(data.salida).toISOString())
+
+      let salida_min = new Date(salida.getTime() - 10*60000)
+      let salida_max = new Date(salida.getTime() + 10*60000)
+
+      //10 minutos de tolerancia antes y despues de terminar la jornada
+      if(checkout >= salida_min && checkout <= salida_max){
+        swal({
+          title: 'Nos vemos!',
+          text: "Check out correcto: "+checkout.getHours()+":"+checkout.getMinutes(),
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+        })
+        .then((aceptar) =>{
+          if(aceptar){
+            window.api.send('users:checkout', data._id, checkout)
+            window.location.pathname = '/'
+          }
+        })
+      }
+      //Si hace checkout dentro del horario laboral jaja
+      if(checkout <= salida_min){
+        swal({
+          title: 'Confirmacion',
+          text: "Si hace checkout no podra entrar otra vez por hoy",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((aceptar) =>{
+          if(aceptar){
+            swal({
+              title: 'Nos vemos!',
+              text: "Check out correcto: "+checkout.getHours()+":"+checkout.getMinutes(),
+              icon: 'success',
+              confirmButtonText: 'Aceptar',
+            })
+            .then((aceptar) =>{
+              if(aceptar){
+                window.api.send('users:checkout', data._id, checkout)
+                window.location.pathname = '/'
+              }
+            })
+
+          }
+        })
+      }
+      if(checkout >= salida_max){
+        swal({
+          title: 'Nos vemos!',
+          text: "Check out fuera de horario laboral: "+checkout.getHours()+":"+checkout.getMinutes(),
+          icon: 'warning',
+          confirmButtonText: 'Aceptar',
+        })
+        .then((aceptar) =>{
+          if(aceptar){
+            window.api.send('users:checkout', data._id, checkout)
+            window.location.pathname = '/'
+          }
+        })
+      }
+    });
+
+
+
+
+    //window.location.pathname = "/"
+  }
+  render(){
+      return (
+        <div className="internalActions">
+    <h2>ACCIONES INTERNAS</h2>
+          <Button>Movimiento Interno</Button>
+          <Button>Corte de caja en X</Button>
+          <Button>Corte de caja en Z</Button>
+          <Button onClick={this.logout}>Check out</Button>
+        </div>
+      );
+  }
 }
 
 /*
