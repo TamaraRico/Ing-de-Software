@@ -79,4 +79,22 @@ const updateOneUser = async (users,original,data) => {
     }
 }
 
-module.exports = {getUserByName, findAllUsers, fetchUsers, insertUser, deleteUser, updateOneUser}
+const userCheckin = async (users, user_id, fecha) =>{
+    try {
+        console.log(user_id, fecha)
+        await users.updateOne(  {"_id": new ObjectID(user_id)},
+                                {$set: {"checkin": fecha}});
+    } catch (e) {
+        throw e;
+    }
+}
+const userCheckout = async (users, user_id, fecha) =>{
+    try {
+        console.log(user_id, fecha)
+        await users.updateOne(  {"_id": new ObjectID(user_id)},
+                                {$set: {"checkout": fecha}});
+    } catch (e) {
+        throw e;
+    }
+}
+module.exports = {getUserByName, findAllUsers, fetchUsers, insertUser, deleteUser, updateOneUser,userCheckin, userCheckout}

@@ -8,6 +8,7 @@ import Admin from './adminComponent/admin';
 import Inventory from './adminComponent/inventoryComponent/inventario';
 import Employee from './adminComponent/employeeComponent/employee';
 import InventoryPos from './posComponent/inventarioPos';
+import DeleteSales from './adminComponent/deleteSalesComponent/index';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
 const container = document.getElementById('root');
@@ -23,6 +24,7 @@ root.render(
             <Route path='/inventory' element={<Inventory/>} />  
             <Route path='/employee' element={<Employee/>}/>
             <Route path='/inventoryPos' element={<InventoryPos/>}/>
+            <Route path='/deleteSales' element={<DeleteSales />} /> 
           </Routes>
       </div>
     </BrowserRouter>

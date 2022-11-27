@@ -221,5 +221,20 @@ ipcMain.on('sales:insert',async (e, venta) =>{
         console.log(err)
     }
 })
-
+ipcMain.on('users:checkin',async (e, user_id, fecha) =>{
+    try{
+        var users = MongoDB.getCollection('users');
+        Users.userCheckin(users, user_id, fecha)
+    } catch (err) {
+        console.log(err)
+    }
+})
+ipcMain.on('users:checkout',async (e, user_id, fecha) =>{
+    try{
+        var users = MongoDB.getCollection('users');
+        Users.userCheckout(users, user_id, fecha)
+    } catch (err) {
+        console.log(err)
+    }
+})
 //--------  FIN CONSULTAS DE IRVIN :) ------------
