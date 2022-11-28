@@ -143,6 +143,18 @@ const deleteMultipleProductsByName = async (products, nameOfProduct) => {
     }
 }
 
+const updateOneProduct = async (products,original,data) => {
+    try{
+        const res = await products.updateOne(original,data,
+            function(err, res) {
+                if (err) throw err;
+                console.log(res.result.nModified + " document(s) updated")
+            });
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 const getProductByBarcode = async (products, barcode) => {
     try{
         const product = await products.findOne({barcode : barcode})
@@ -175,6 +187,7 @@ module.exports = {insertOneProduct,
     findMultipleProductsByName,
     findAllProducts,
     findOneProductByBarcode,
+    updateOneProduct,
     deleteOneProductByName,
     deleteMultipleProductsByName,
     getProductByBarcode, 
