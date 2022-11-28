@@ -86,6 +86,16 @@ ipcMain.on('products:update', async(e, original, data)=>{
         console.log(err);
     }
 })
+
+ipcMain.on('products:delete', async(e, barcode)=>{
+    try {
+        var products = MongoDB.getCollection('products');
+        var p = await Products.deleteOneProductByBarcode(products, barcode)
+        mainWindow.webContents.send('products:get', JSON.stringify(p))
+    } catch (err) {
+        console.log(err);
+    }
+})
 //--------  FIN CONSULTAS DE ALONDRA :) ------------
 
 //--------  INICIO CONSULTAS DE EDGAR :) ------------
