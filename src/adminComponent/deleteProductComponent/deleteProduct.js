@@ -11,8 +11,8 @@ import Swal from "sweetalert2";
 
 export default function DeleteProduct() {
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = useState('');
-  const [barcode, setBarcode] = useState('');
+  const [name, setName] = React.useState('');
+  const [barcode, setBarcode] = React.useState('');
 
 
   const handleClickOpen = (event) => {
