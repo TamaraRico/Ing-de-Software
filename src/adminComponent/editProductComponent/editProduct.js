@@ -26,16 +26,16 @@ const categories = [
 export default function EditProduct() {
   const [open, setOpen] = React.useState(false);
   const [category, setCategory] = React.useState('Papeleria');
-  const [name, setName] = useState('');
-  const [barcode, setBarcode] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [priceUnit, setPriceUnit] = useState('');
-  const [price, setPrice] = useState('');
-  const [manufacture, setManufacture] = useState('');
-  const [lastPurchase, setLastPurchase] = useState('');
-  const [providerCode, setProviderCode] = useState('');
-  const [discountPercent, setDiscountPercent] = useState('');
-  const [hasDiscount, setHasDiscount] = useState('');
+  const [name, setName] = React.useState('');
+  const [barcode, setBarcode] = React.useState('');
+  const [quantity, setQuantity] = React.useState('');
+  const [priceUnit, setPriceUnit] = React.useState('');
+  const [price, setPrice] = React.useState('');
+  const [manufacture, setManufacture] = React.useState('');
+  const [lastPurchase, setLastPurchase] = React.useState('');
+  const [providerCode, setProviderCode] = React.useState('');
+  const [discountPercent, setDiscountPercent] = React.useState('');
+  const [hasDiscount, setHasDiscount] = React.useState('');
 
   const handleClickOpen = (event) => {
     event.preventDefault();
