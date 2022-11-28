@@ -53,9 +53,11 @@ function corteDeCajaEnX(){
                   price = product.priceUnit
                 }
             });
-            const obj = data.filter(result => {
-                
-            })
+            const obj = data.find()
+            if(obj != null){
+                var cantidadComprada = obj.cantidad
+                obj.
+            }
 
             var precioTotal = cantidadDelProducto * price;
             var p = {
@@ -66,7 +68,7 @@ function corteDeCajaEnX(){
             elementosComprados.push(p);
             })
         });
-    }).finally(() => {
+    .finally(() => {
 
         const data2 = {
             labels: daylist,
