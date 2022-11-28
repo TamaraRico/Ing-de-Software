@@ -122,9 +122,9 @@ const findOneProductByBarcode = async (products, productBarcode) => {
 }
 
 //Eliminar un solo producto
-const deleteOneProductByName = async (products, nameOfProduct) => {
+const deleteOneProductByBarcode = async (products, barcode) => {
     try{
-        const res = await products.deleteOne({name: nameOfProduct});
+        const res = await products.deleteOne({barcode: barcode});
         console.log(`${res.deletedCount} document was deleted`);
     } catch (err) {
         console.log(err)
@@ -188,7 +188,7 @@ module.exports = {insertOneProduct,
     findAllProducts,
     findOneProductByBarcode,
     updateOneProduct,
-    deleteOneProductByName,
+    deleteOneProductByBarcode,
     deleteMultipleProductsByName,
     getProductByBarcode, 
     fetchProducts};
