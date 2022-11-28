@@ -55,8 +55,9 @@ function corteDeCajaEnX(){
             });
             const obj = data.find()
             if(obj != null){
-                var cantidadComprada = obj.cantidad
-                obj.
+                var cantidadComprada = obj.cantidad;
+                obj.cantidad = cantidadComprada * price;
+                
             }
 
             var precioTotal = cantidadDelProducto * price;
