@@ -7,6 +7,7 @@ const Users = require('../src/db/users');
 const Providers = require('../src/db/providers');
 const Products = require('../src/db/products');
 const Sells = require('../src/db/sells');
+const { EventEmitter } = require('stream');
 
 MongoDB.connectDB();
 
@@ -57,15 +58,33 @@ app.on('activate',() =>{
 
 //--------  INICIO CONSULTAS DE ALONDRA :) ------------
 ipcMain.on('products:searchOne', async (e, productName) => {
-    var products = MongoDB.getCollection('products')
-    var p = await Products.findOneProductByName(products, productName)
-    mainWindow.webContents.send('products:get', JSON.stringify(p))
+    try{
+        var products = MongoDB.getCollection('products')
+        var p = await Products.findOneProductByName(products, productName)
+        mainWindow.webContents.send('products:get', JSON.stringify(p))
+    } catch (err) {
+        console.log(err);
+    }
 })
     
 ipcMain.on('products:add', async (e, listing) => {
-    var products = MongoDB.getCollection('products')
-    var p = await Products.insertOneProduct(products, listing)
-    mainWindow.webContents.send('products:get', JSON.stringify(p))
+    try{
+        var products = MongoDB.getCollection('products')
+        var p = await Products.insertOneProduct(products, listing)
+        mainWindow.webContents.send('products:get', JSON.stringify(p))
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+ipcMain.on('products:update', async(e, original, data)=>{
+    try {
+        var products = MongoDB.getCollection('products');
+        var p = await Products.updateOneProduct(products, original, data)
+        mainWindow.webContents.send('products:get', JSON.stringify(p))
+    } catch (err) {
+        console.log(err);
+    }
 })
 //--------  FIN CONSULTAS DE ALONDRA :) ------------
 
