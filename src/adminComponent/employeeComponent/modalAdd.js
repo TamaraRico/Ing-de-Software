@@ -1,117 +1,49 @@
 // librerias importadas
-import React from 'react';
-import Portal from './portal';
-import {Button , Box}from '@mui/material';
-import swal from 'sweetalert';
+import * as React from "react";
+import Button from "@mui/material/Button";
+ import swal from 'sweetalert';
 
-// Componentes usados
-import UsernameTextField from './formComponent/UsernameTextField'
-import PasswordTextField from './formComponent/PasswordTextField'
-import EntradaPickers from './formComponent/EntradaPickers'
-import SalidaPickers from './formComponent/SalidaPickers'
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Grid } from "@mui/material";
 
 // Variables para los datos del usuario
-var user = null;
-var pass = null;
-var entry = null;
-var out = null;
-var exit = null;
 
-class ModalAdd extends React.Component{
-    // 
-    state = {
-        user: "",
-        pass: "",
-        entry: "",
-        out: "",
-    }
-    
-    userState = (childData) =>{
-        this.setState({user: childData})
-    }
-    
-    passState = (childData) =>(
-        this.setState({pass: childData})
-    )
-
-    entryState = (childData) =>(
-        this.setState({entry: childData})
-    )
-
-    outState = (childData) =>(
-        this.setState({out: childData})
-    )
-
-    render(){
-        const { children, toogle, active } = this.props;
-
-        exit = toogle;
-        user = this.state.user;
-        pass = this.state.pass;
-        entry = this.state.entry;
-        out = this.state.out
-        
-        return (
-            <Portal>
-                {active && (
-                    <div style={styles.wrapper}>
-                        <div style={styles.window}>
-                            <Box>
-                                <ButtonExit/>
-                                <div>{children}</div>
-                                <div>
-                                    <UsernameTextField parentCallback = {this.userState}/>
-                                </div>
-                                <div>
-                                    <PasswordTextField parentCallback = {this.passState}/>
-                                </div>
-                                <div>
-                                    <EntradaPickers parentCallback = {this.entryState}/>
-                                </div>
-                                <div>
-                                    <SalidaPickers parentCallback = {this.outState}/>
-                                </div>
-                                <div>
-                                    <AddButton/>
-                                </div>
-                            </Box>
-                        </div>
-                    </div>
-                )}
-            </Portal>
-        );
-    }
-}
-
-class ButtonExit extends React.Component{
-    render(){
-        return(
-            <Button 
-            variant="text"
-            margin="dense"
-            onClick={exit}>
-            X
-            </Button>
-        )
-    }
-}
-
-class AddButton extends React.Component{
-
-
-    validate(){
+export default function ModalAdd() {
+    const [open, setOpen] = React.useState(false);
+  
+    const handleClickOpen = (event) => {
+      event.preventDefault();
+      setOpen(true);
+    };
+  
+    const handleClose = (event) => {
+      event.preventDefault();
+      setOpen(false);
+    };
+  
+    const handleAddEmployee = (event) => {
+        event.preventDefault();
+        var user = window.document.getElementById('name').value;
+        var pass = window.document.getElementById('pass').value;
+        var entry = window.document.getElementById('entry').value;
+        var out = window.document.getElementById('out').value;
         if((user != '') && (pass != '')) {
             window.api.send('user:load',user);
             let t1 = entry.split(':'),t2 = out.split(':');;
             let h = parseInt(t1[0]), m = parseInt(t1[1]), s = 0;
             let he = new Date(new Date(new Date().setHours(h,m,s)).toISOString());
-     
+ 
             h = parseInt(t2[0]);
             m = parseInt(t2[1]);
             let ho = new Date(new Date(new Date().setHours(h,m,s)).toISOString());
             var userA = {
-                name: user,
-                password: pass,
+                name: window.document.getElementById('name').value,
+                password: window.document.getElementById('pass').value,
                 role: 'employee',
                 entrada: he,
                 salida: ho,
@@ -122,6 +54,7 @@ class AddButton extends React.Component{
                 const data2 = JSON.parse(data);
 
                 if(data2 == null){
+
                     window.api.send('users:insert', userA);
                     window.api.receive('users:insert',  async (confirmacion) => {
                         if(confirmacion){
@@ -131,9 +64,8 @@ class AddButton extends React.Component{
                                 icon: 'success',
                                 confirmButtonText: 'Cerrar'
                             })
-                            exit()
-                        }
-                        else{
+                            setOpen(false);
+                        } else {
                             swal({
                                 title: 'Error!',
                                 text: 'No se pudo guardar el usuario :(',
@@ -159,46 +91,39 @@ class AddButton extends React.Component{
                 confirmButtonText: 'Cerrar'
             })
         }
-    }
-    
-    render(){
-        return(
-            <Button 
-            variant="contained"
-            onClick={this.validate}
-            margin="dense">
-            Agregar Usuario
-            </Button>
-        )
-    }
+    }   
+  
+    return (
+      <div>
+        <Button variant="outlined" onClick={handleClickOpen}>
+          Agregar Empleado
+        </Button>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Dar de alta nuevo un Empleado</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Verificar correctamente todos los campos
+            </DialogContentText>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <TextField fullWidth autoFocus margin="dense" id="name" label="Nombre" type="text" variant="filled" />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField fullWidth margin="dense" id="pass" label="Contrasena" type="password" variant="filled" />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField fullWidth margin="dense" id="entry" label="Entrada" type="text" variant="filled" />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField fullWidth margin="dense" id="out" label="Salida" type="text" variant="filled" />
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cerrar</Button>
+            <Button onClick={handleAddEmployee}>Agregar</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
 }
-
-const styles = {
-    wrapper: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        heigt: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    window: {
-        position: 'relative',
-        background: '#fff',
-        borderRadius: 5,
-        padding: 15,
-        boxShadow: '2px 2px 10px rgba(0,0,0,0.3)',
-        zIndex: 10,
-        minWidth: 320,
-    },
-    closeBtn: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-    }
-}
-
-export default ModalAdd;
