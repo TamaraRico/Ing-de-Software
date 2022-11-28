@@ -97,4 +97,5 @@ const userCheckout = async (users, user_id, fecha) =>{
         throw e;
     }
 }
+
 module.exports = {getUserByName, findAllUsers, fetchUsers, insertUser, deleteUser, updateOneUser,userCheckin, userCheckout}

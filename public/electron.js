@@ -140,6 +140,12 @@ ipcMain.on('product:getByBarcode', async(e, product) => {
     var p = await Products.getProductByBarcode(products, product);
     mainWindow.webContents.send('product:getOne', JSON.stringify(p))
 })
+
+ipcMain.on('sells:getByEmployee', async (e, employee, start, end) => {
+    var sells = MongoDB.getCollection('sells');
+    var s = await Sells.fetchSellsByEmployeeAndDate(sells, employee, start, end);
+    mainWindow.webContents.send('sells:getEmployee', s)
+})
 //--------  FIN CONSULTAS DE ADRIAN :) ------------
 
 

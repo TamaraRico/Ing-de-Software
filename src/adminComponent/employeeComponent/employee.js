@@ -7,6 +7,9 @@ import ModalAdd from "./modalAdd";
 import ModalEdit from "./modalEdit";
 import ModalDelete from "./modalDelete";
 import ModalPass from "./modalPass";
+import { Grid } from "@mui/material";
+
+import {EmployeeStadistics} from "../stadisticsComponent/employeeStadistics";
 
 function getUsers() {
   return new Promise((resolve, reject) => {
@@ -76,34 +79,49 @@ class Employee extends React.Component {
         <div id="main">
           <h1>EMPLEADOS</h1>
           <h7><b>INICIO/</b>Empleados</h7>
-          <AddButton parentCallback={this.reloadState} />
-          <DeleteButton parentCallback={this.reloadState} />
-          <EditButton parentCallback={this.reloadState} />
-          <PassEditButton />
-          <table>
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Entrada</th>
-                <th>Salida</th>
-                <th>Checkin</th>
-                <th>Checkout</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.users.map((val, key) => (
-                <tr usersId={key}>
-                  <td>{val._id}</td>
-                  <td>{val.name}</td>
-                  <td>{val.entrada}</td>
-                  <td>{val.salida}</td>
-                  <td>{val.checkin}</td>
-                  <td>{val.checkout}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Grid container spacing={2}>
+          <Grid item xs={12} md={8}>
+              <div class="card">
+                <EmployeeStadistics />
+              </div>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <div class="card">
+                <AddButton parentCallback={this.reloadState} />
+                <DeleteButton parentCallback={this.reloadState} />
+                <EditButton parentCallback={this.reloadState} />
+                <PassEditButton />
+              </div>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <div class="card">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Nombre</th>
+                      <th>Entrada</th>
+                      <th>Salida</th>
+                      <th>Checkin</th>
+                      <th>Checkout</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.users.map((val, key) => (
+                      <tr usersId={key}>
+                        <td>{val._id}</td>
+                        <td>{val.name}</td>
+                        <td>{val.entrada}</td>
+                        <td>{val.salida}</td>
+                        <td>{val.checkin}</td>
+                        <td>{val.checkout}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Grid>
+          </Grid>
         </div>
       </div>
     );
