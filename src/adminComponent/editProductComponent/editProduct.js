@@ -26,6 +26,16 @@ const categories = [
 export default function EditProduct() {
   const [open, setOpen] = React.useState(false);
   const [category, setCategory] = React.useState('Papeleria');
+  const [name, setName] = useState('');
+  const [barcode, setBarcode] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [priceUnit, setPriceUnit] = useState('');
+  const [price, setPrice] = useState('');
+  const [manufacture, setManufacture] = useState('');
+  const [lastPurchase, setLastPurchase] = useState('');
+  const [providerCode, setProviderCode] = useState('');
+  const [discountPercent, setDiscountPercent] = useState('');
+  const [hasDiscount, setHasDiscount] = useState('');
 
   const handleClickOpen = (event) => {
     event.preventDefault();
@@ -42,26 +52,67 @@ export default function EditProduct() {
     setCategory(event.target.value);
   }
 
+  const handleChangeName = (event) => {
+    event.preventDefault();
+    setName(event.target.value);
+  }
+  const handleChangeBarcode = (event) => {
+    event.preventDefault();
+    setBarcode(event.target.value);
+  }
+  const handleChangeQuantity = (event) => {
+    event.preventDefault();
+    setQuantity(event.target.value);
+  }
+  const handleChangePriceUnit = (event) => {
+    event.preventDefault();
+    setPriceUnit(event.target.value);
+  }
+  const handleChangePrice = (event) => {
+    event.preventDefault();
+    setPrice(event.target.value);
+  }
+  const handleChangeManufacture = (event) => {
+    event.preventDefault();
+    setManufacture(event.target.value);
+  }
+  const handleChangeLastPurchase = (event) => {
+    event.preventDefault();
+    setLastPurchase(event.target.value);
+  }
+  const handleChangeProviderCode = (event) => {
+    event.preventDefault();
+    setProviderCode(event.target.value);
+  }
+  const handleChangeDiscountPercent = (event) => {
+    event.preventDefault();
+    setDiscountPercent(event.target.value);
+  }
+  const handleChangeHasDiscount = (event) => {
+    event.preventDefault();
+    setHasDiscount(event.target.value);
+  }
+
   const handleSearchProduct = (event) => {
     event.preventDefault();
     
-    window.api.send('product:searchOne',window.document.getElementById('search').value);
+    window.api.send('product:getByBarcode',window.document.getElementById('search').value);
     //'product:getOne'
 
-    window.api.receive('product:get', (data) => {
+    window.api.receive('product:getOne', (data) => {
         const data2 = JSON.parse(data);
         if(data2 != null){
-            window.document.getElementById('barcode').value = data2.barcode;
-            window.document.getElementById('category').value = data2.category;
-            window.document.getElementById('name').value = data2.name;
-            window.document.getElementById('quantity').value = data2.quantity;
-            window.document.getElementById('priceUnit').value = data2.priceUnit;
-            window.document.getElementById('price').value = data2.price;
-            window.document.getElementById('manufacture').value = data2.manufacture;
-            window.document.getElementById('lastPurchase').value = data2.lastPurchase;
-            window.document.getElementById('providerCode').value = data2.providerCode;
-            window.document.getElementById('discountPercent').value = data2.discountPercent;
-            window.document.getElementById('hasDiscount').value = data2.hasDiscount;
+            setBarcode(data2.barcode);
+            setName(data2.name);
+            setCategory(data2.category);
+            setQuantity(data2.quantity);
+            setPriceUnit(data2.priceUnit);
+            setPrice(data2.price);
+            setManufacture(data2.manufacture);
+            setLastPurchase(data2.lastPurchase);
+            setProviderCode(data2.providerCode);
+            setDiscountPercent(data2.discountPercent);
+            setHasDiscount(data2.hasDiscount);
         } else{
             Swal.fire({
                 title: 'Error!',
@@ -129,15 +180,17 @@ export default function EditProduct() {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
                 <TextField fullWidth autoFocus margin="dense" id="search" label="Producto a buscar" type="text" variant="filled" />
+            </Grid>
+            <Grid item xs={12} md={6}>
                 <Button onClick={handleSearchProduct}>Buscar</Button>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <TextField fullWidth autoFocus margin="dense" id="barcode" label="Codigo de barras" type="text" variant="filled" />
+              <TextField fullWidth autoFocus margin="dense" id="barcode" label="Codigo de barras" type="text" variant="filled" onChange={handleChangeBarcode} value={barcode}/>
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField fullWidth margin="dense" id="name" label="Nombre" type="text" variant="filled" />
+              <TextField fullWidth margin="dense" id="name" label="Nombre" type="text" variant="filled" onChange={handleChangeName} value={name} />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField fullWidth select margin="dense" id="category" label="Categoria" variant="filled" value={category} onChange={handleChangeCategory}>{
@@ -147,28 +200,28 @@ export default function EditProduct() {
               </TextField>
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField fullWidth margin="dense" id="quantity" label="Cantidad en almacen" type="text" variant="filled" />
+              <TextField fullWidth margin="dense" id="quantity" label="Cantidad en almacen" type="text" variant="filled" onChange={handleChangeQuantity} value={quantity} />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField fullWidth margin="dense" id="price" label="Precio unitario" type="text" variant="filled" InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}/>
+              <TextField fullWidth margin="dense" id="price" label="Precio unitario" type="text" variant="filled" onChange={handleChangePriceUnit} value={priceUnit} InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}/>
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField fullWidth margin="dense" id="salePrice" label="Precio de venta" type="text" variant="filled" InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}/>
+              <TextField fullWidth margin="dense" id="salePrice" label="Precio de venta" type="text" variant="filled" onChange={handleChangePrice} value={price} InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}/>
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField fullWidth margin="dense" id="manufacture" label="Manufactura" type="text" variant="filled"/>
+              <TextField fullWidth margin="dense" id="manufacture" label="Manufactura" type="text" variant="filled" onChange={handleChangeManufacture} value={manufacture}/>
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField fullWidth margin="dense" id="lastPurchase" label="Ultimo dia de compra" type="text" variant="filled" />
+              <TextField fullWidth margin="dense" id="lastPurchase" label="Ultimo dia de compra" type="text" variant="filled" onChange={handleChangeLastPurchase} value={lastPurchase} />
             </Grid>
             <Grid item xs={12} md={12}>
-              <TextField fullWidth margin="dense" id="providerCode" label="Codigo de proveedor" type="text" variant="filled" />
+              <TextField fullWidth margin="dense" id="providerCode" label="Codigo de proveedor" type="text" variant="filled" onChange={handleChangeProviderCode} value={providerCode} />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField fullWidth margin="dense" id="discountPercent" label="Porcentaje de descuento" type="text" variant="filled" />
+              <TextField fullWidth margin="dense" id="discountPercent" label="Porcentaje de descuento" type="text" variant="filled" onChange={handleChangeDiscountPercent} value={discountPercent} />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField fullWidth margin="dense" id="hasDiscount" label="¿Tiene descuento?" type="text" variant="filled" />
+              <TextField fullWidth margin="dense" id="hasDiscount" label="¿Tiene descuento?" type="text" variant="filled" onChange={handleChangeHasDiscount} value={hasDiscount} />
             </Grid>
           </Grid>
         </DialogContent>
