@@ -37,7 +37,7 @@ function getActiveEmployee(){
     }
 }
 
-function corteDeCajaEnX(){
+function corteDeCajaEnX(){//pasar empleado activo como parametro
     var elementosComprados = []
     getActiveEmployee();
     getSalesByDate(startTime, stopTime).then((data) => {
@@ -53,39 +53,65 @@ function corteDeCajaEnX(){
                   price = product.priceUnit
                 }
             });
-            const obj = data.find()
+            const obj = data.find(productName);
             if(obj != null){
                 var cantidadComprada = obj.cantidad;
-                obj.cantidad = cantidadComprada * price;
-                
+                obj.cantidad = obj.cantidad + cantidadDelProducto;
+                obj.total = obj.total + cantidadComprada * price;
+            }else{
+                var precioTotal = cantidadDelProducto * price;
+                var p = {
+                    nombre : productName,
+                    cantidad : cantidadDelProducto,
+                    total : precioTotal
+                };
+                elementosComprados.push(p);
             }
-
-            var precioTotal = cantidadDelProducto * price;
-            var p = {
-                nombre : productName,
-                cantidad : cantidadDelProducto,
-                total : precioTotal
-            };
-            elementosComprados.push(p);
             })
         });
-    .finally(() => {
-
-        const data2 = {
-            labels: daylist,
-            datasets : [
-                {
-                    label : 'Venta por dia',
-                    data : totalTraffic,
-                    backgroundColor: 'rgb(255, 180, 162)',
-                    fill: 'start',
-                    lineTension : 0.4
-                },
-            ],
-        }
-    })
+        return elementosComprados;
+    // generar recibo
 }
 
 function corteDeCajaEnZ(){
-
+    var elementosComprados = []
+    getActiveEmployee();
+    getSalesByDate(startTime, stopTime).then((data) => {//pasar a otro metodo, igual que el corte en X
+        data.forEach(element => {
+            var productBarcode = element.purchased_products.products.barcode;
+            var productCategory = element.purchased_products.category;
+            var cantidadDelProducto = element.purchased_products.products.quantity;
+            var productName = null;
+            var price = null;
+            getProduct(productBarcode).then((data) => {
+                if (data !== "null") {
+                  const product = JSON.parse(data);
+                  productName = product.name
+                  price = product.priceUnit
+                }
+            });
+            const obj = data.find(productCategory).productos;
+            const objProduct = obj.find(productName);
+            if(objProduct != null){
+                var cantidadComprada = objProduct.cantidad;
+                objProduct.cantidad = objProduct.cantidad + cantidadDelProducto;
+                objProduct.total = objProduct.total + cantidadComprada * price;
+            }else{
+                var precioTotal = cantidadDelProducto * price;
+                var p = {
+                    categoria: productCategory,
+                    productos : [
+                        {
+                            nombre : productName,
+                            cantidad : cantidadDelProducto,
+                            total : precioTotal
+                        }
+                    ]
+                };
+                elementosComprados.push(p);
+            }
+            })
+        });
+        return elementosComprados;
+    // generar recibo
 }
