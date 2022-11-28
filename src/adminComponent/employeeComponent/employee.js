@@ -1,16 +1,13 @@
 import React from "react";
 import "./employee.css";
-import Button from "@mui/material/Button";
 import Menu from "../menuComponent/menu";
 
 import { Grid } from "@mui/material";
 import { StickyTable } from "./employeeTable";
-
 import ModalAdd from "./modalAdd";
 import ModalEdit from "./modalEdit";
 import ModalDelete from "./modalDelete";
 import ModalPass from "./modalPass";
-import { Grid } from "@mui/material";
 
 import { EmployeeStadistics } from "../stadisticsComponent/employeeStadistics";
 
@@ -24,7 +21,7 @@ function getUsers() {
   });
 }
 
-export default class Employee extends React.Component {
+class Employee extends React.Component {
   constructor(props) {
     super(props);
 
