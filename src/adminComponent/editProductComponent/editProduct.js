@@ -147,7 +147,7 @@ export default function EditProduct() {
                 'discountPercent' : window.document.getElementById('discountPercent').value,
                 'hasDiscount'     : window.document.getElementById('hasDiscount').value
             };
-            window.api.send('products:edit', {barcode: window.document.getElementById('barcode').value}, formData);
+            window.api.send('products:update', {barcode: window.document.getElementById('barcode').value}, formData);
             Swal.fire({
                 title: 'Correcto!',
                 text: 'Producto editado con exito!',
