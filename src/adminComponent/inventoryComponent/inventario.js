@@ -58,9 +58,15 @@ class Inventory extends React.Component {
           <h7><b>INICIO/</b>Inventario</h7>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-                <AddProduct fullWidth margin="dense"/>
-                <EditProduct fullWidth margin="dense"/>
-                <DeleteProduct fullWidth margin="dense"/>
+              <div class="card">
+                <table align="center">
+                  <tr align="center">
+                    <td align="center"><AddProduct /></td>
+                    <td align="center"><EditProduct /></td>
+                    <td align="center"><DeleteProduct /></td>
+                  </tr>
+                </table>
+              </div>
             </Grid>
             <Grid item xs={12} md={12}>
               <div class="card">
