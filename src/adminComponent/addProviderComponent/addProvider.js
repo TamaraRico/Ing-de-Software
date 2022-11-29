@@ -138,10 +138,10 @@ export function DeleteProvider() {
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Agregar Proveedor
+        Eliminar Proveedor
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Dar de alta nuevo proveedor</DialogTitle>
+        <DialogTitle>Dar de baja proveedor</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Verificar correctamente todos los campos
