@@ -2,8 +2,6 @@ import React from 'react';
 
 var user = null;
 var pass = null;
-var startTime = null;
-var stopTime = null;
 
 function getSalesByDate(start, end){
     return new Promise((resolve, reject) => {
@@ -17,29 +15,16 @@ function getSalesByDate(start, end){
 function getProduct(barcode){
     return new Promise((resolve, reject) => {
         window.api.send('product:getByBarcode', barcode);
-        
         window.api.receive('product:getOne', (data) => {
             resolve(data);
         });
 	})
 }
 
-function getActiveEmployee(){
-    if((user != '') && (pass != '')) {
-        window.api.send('user:load',user);
-        window.api.receive('user:get', (data) => {
-            const data2 = JSON.parse(data);
-            if(data2.role == 'employee'){
-                startTime = data2.entrada;
-                stopTime  = data2.salida;
-            }
-        });
-    }
-}
-
-function corteDeCajaEnX(){//pasar empleado activo como parametro
+function corteDeCajaEnX(user){//pasar empleado activo como parametro
     var elementosComprados = []
-    getActiveEmployee();
+    let startTime = user.entrada;
+    let stopTime  = user.salida;    
     getSalesByDate(startTime, stopTime).then((data) => {
         data.forEach(element => {
             var productBarcode = element.purchased_products.products.barcode;
@@ -54,11 +39,11 @@ function corteDeCajaEnX(){//pasar empleado activo como parametro
                 }
             });
             const obj = data.find(productName);
-            if(obj != null){
+            if(obj !== null) {
                 var cantidadComprada = obj.cantidad;
                 obj.cantidad = obj.cantidad + cantidadDelProducto;
                 obj.total = obj.total + cantidadComprada * price;
-            }else{
+            } else {
                 var precioTotal = cantidadDelProducto * price;
                 var p = {
                     nombre : productName,
@@ -67,16 +52,32 @@ function corteDeCajaEnX(){//pasar empleado activo como parametro
                 };
                 elementosComprados.push(p);
             }
-            })
-        });
-        return elementosComprados;
+        })
+    });
+    return elementosComprados;
     // generar recibo
 }
 
-function corteDeCajaEnZ(){
+const elementsByCategory = [
+    {
+        categoria: "Papeleria",
+        productos: []
+    },
+    {
+        categoria: "Miscelanea",
+        productos: []
+    },
+    {
+        categoria: "Regalos",
+        productos: []
+    }
+]
+
+function corteDeCajaEnZ(user){
     var elementosComprados = []
-    getActiveEmployee();
-    getSalesByDate(startTime, stopTime).then((data) => {//pasar a otro metodo, igual que el corte en X
+    let startTime = user.entrada;
+    let stopTime  = user.salida;
+    getSalesByDate(startTime, stopTime).then((data) => { // pasar a otro metodo, igual que el corte en X
         data.forEach(element => {
             var productBarcode = element.purchased_products.products.barcode;
             var productCategory = element.purchased_products.category;
@@ -110,8 +111,10 @@ function corteDeCajaEnZ(){
                 };
                 elementosComprados.push(p);
             }
-            })
-        });
-        return elementosComprados;
+        })
+    });
+    return elementosComprados;
     // generar recibo
 }
+
+module.exports = {corteDeCajaEnX, corteDeCajaEnZ};
