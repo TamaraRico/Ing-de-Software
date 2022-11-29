@@ -11,6 +11,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {faDeleteLeft}  from "@fortawesome/free-solid-svg-icons";
 
+const corteDeCaja = require('./corteDeCaja');
+
+//const ThermalPrinter = require('node-thermal-printer').printer;
+//const PrinterTypes = require('node-thermal-printer').types;
+//const printer = remote.require('@thiagoelg/node-printer');
+
 
 library.add(faDeleteLeft);
 
@@ -176,26 +182,26 @@ class ProductsComponent extends React.Component {
     if (index != -1) {
       if (calculateQuantityToSellInProduct(product.quantity, product.inventory) != -1) {
         this.state.products[index].quantity += 1;
-		this.state.total += product.price;
-			var updatedProducts = this.state.products;
-			var total = this.state.total;
-			this.setState((state) => ({
-				products: updatedProducts,
-				total: total,
-			}),() => {
-				if(product.hasDiscount){
-					this.state.products[index+1].quantity += 1;
-					this.state.total += this.state.products[index+1].price;
-					var updatedProducts = this.state.products;
-					var total = this.state.total;
-					this.setState((state) => ({
-						products : updatedProducts,
-						total : total,
-					}), () => {
-						console.log("Updated")
-					})
-				}
-			});
+		    this.state.total += product.price;
+        var updatedProducts = this.state.products;
+        var total = this.state.total;
+        this.setState((state) => ({
+				  products: updatedProducts,
+				  total: total,
+			  }),() => {
+          if(product.hasDiscount){
+            this.state.products[index+1].quantity += 1;
+            this.state.total += this.state.products[index+1].price;
+            var updatedProducts = this.state.products;
+            var total = this.state.total;
+            this.setState((state) => ({
+              products : updatedProducts,
+              total : total,
+            }), () => {
+              console.log("Updated")
+            })
+				  }
+			  });
       }
     } else {
       if (product.inventory == 0) {
@@ -214,34 +220,34 @@ class ProductsComponent extends React.Component {
             icon: "warning",
           });
         }
-		console.log(product)
+		    console.log(product)
         //THIS IS WORKING TO ADD A NEW PRODUCT TO THE ARRAY
         var newProducts = this.state.products.concat([product]);
 
-		this.setState((state) => ({
-			  products: newProducts,
-			  total: state.total + product.price,
-			}),() => {
-				if(product.hasDiscount){
-					var discountedP = {
-						barcode: product.barcode + "-1",
-						name: "Descuento",
-						category: product.category,
-						quantity: 1,
-						inventory: product.quantity,
-						price: - parseFloat((product.price * product.discountPercent / 100)).toFixed(2),
-						hasDiscount : product.hasDiscount,
-						discountPercent : product.discountPercent
-					}
-					var newProducts = this.state.products.concat([discountedP]);
-					this.setState((state) => ({
-						products: newProducts,
-						total: state.total + discountedP.price,
-						}),() => {
-						console.log("States updated: ");
-					});	
-				}
-		});
+        this.setState((state) => ({
+            products: newProducts,
+            total: state.total + product.price,
+          }),() => {
+            if(product.hasDiscount){
+              var discountedP = {
+                barcode: product.barcode + "-1",
+                name: "Descuento",
+                category: product.category,
+                quantity: 1,
+                inventory: product.quantity,
+                price: - parseFloat((product.price * product.discountPercent / 100)).toFixed(2),
+                hasDiscount : product.hasDiscount,
+                discountPercent : product.discountPercent
+              }
+              var newProducts = this.state.products.concat([discountedP]);
+              this.setState((state) => ({
+                products: newProducts,
+                total: state.total + discountedP.price,
+              }), () => {
+                console.log("States updated: ");
+              });	
+			      }
+		    });
       }
     }
   }
@@ -259,8 +265,8 @@ class ProductsComponent extends React.Component {
             quantity: 1,
             inventory: product.quantity,
             price: product.priceUnit,
-			hasDiscount : product.hasDiscount,
-			discountPercent : product.discountPercent
+			      hasDiscount : product.hasDiscount,
+			      discountPercent : product.discountPercent
           };
           this.addNewProduct(p);
         } else {
@@ -276,7 +282,7 @@ class ProductsComponent extends React.Component {
   }
 
   handleEditProduct(e) {
-	console.log(e)
+	  console.log(e)
     let id = parseInt(e.target.parentNode.parentNode.parentNode.getAttribute("productId"));
     var total = this.state.total - this.state.products[id].price * this.state.products[id].quantity;
     this.state.products.splice(id, 1);
@@ -289,9 +295,7 @@ class ProductsComponent extends React.Component {
         console.log("States updated");
       }
     );
-
-
-}
+  }
 
   handleTotalSell(e){
     Swal.fire({
@@ -304,11 +308,11 @@ class ProductsComponent extends React.Component {
       confirmButtonText: 'PAGAR',
       allowEnterKey: true,
       preConfirm: function(){
-		var clientTotal = parseInt(Swal.getPopup().querySelector('#totalPrice').value)
-		var checked = parseInt(Swal.getPopup().querySelector('.priceType:checked').value)
+		    var clientTotal = parseInt(Swal.getPopup().querySelector('#totalPrice').value)
+		    var checked = parseInt(Swal.getPopup().querySelector('.priceType:checked').value)
           return new Promise(function(resolve){
               resolve([
-				clientTotal, checked
+				          clientTotal, checked
               ])
           })
       },
@@ -404,7 +408,7 @@ class ProductsComponent extends React.Component {
       }
       window.api.send('sales:insert', venta);
       window.api.receive('sales:insert',  async (confirmacion) => {
-        if(confirmacion){
+        if(confirmacion) {
           this.setState({products: [],total: 0,}) //Clear total n products
         }
       });
@@ -466,6 +470,36 @@ CLASS TO HANDLE INTERNAL ACTIONS
     -> CORTE DE CAJA EN Z
 */
 class InternalActions extends React.Component {
+  generarCorteDeCajaX(){
+    Swal.fire({
+      title: 'Imprimiendo!',
+      text: 'Corte de caja en X generado',
+      icon: 'success',
+      timer: 2000
+    });
+   /* window.api.send('user:load', localStorage.getItem('usuario'));
+    window.api.receive('user:get', (logged_employee) => {
+        const data = JSON.parse(logged_employee);
+        let corteDeCajaX = corteDeCaja.corteDeCajaEnX(data);
+        return corteDeCajaX;
+    });*/
+  }
+
+  generarCorteDeCajaZ(){
+    Swal.fire({
+      title: 'Imprimiendo!',
+      text: 'Corte de caja en Z generado',
+      icon: 'success',
+      timer: 2000
+    });
+   /* window.api.send('user:load', localStorage.getItem('usuario'));
+    window.api.receive('user:get', (logged_employee) => {
+        const data = JSON.parse(logged_employee);
+        let corteDeCajaZ = corteDeCaja.corteDeCajaEnZ(data);
+        return corteDeCajaZ;
+    }); */
+  }
+
   logout(){
     window.api.send('user:load', localStorage.getItem('usuario'));
     window.api.receive('user:get', (logged_employee) => {
@@ -514,7 +548,6 @@ class InternalActions extends React.Component {
                 window.location.pathname = '/'
               }
             })
-
           }
         })
       }
@@ -542,10 +575,10 @@ class InternalActions extends React.Component {
   render(){
       return (
         <div className="internalActions">
-    <h2>ACCIONES INTERNAS</h2>
+          <h2>ACCIONES INTERNAS</h2>
           <Button>Movimiento Interno</Button>
-          <Button>Corte de caja en X</Button>
-          <Button>Corte de caja en Z</Button>
+          <Button onClick={this.generarCorteDeCajaX}>Corte de caja en X</Button>
+          <Button onClick={this.generarCorteDeCajaZ}>Corte de caja en Z</Button>
           <Button onClick={this.logout}>Check out</Button>
         </div>
       );
@@ -580,7 +613,6 @@ class PermissionsComponent extends React.Component{
   }
 
   render(){
-    
       return(
           <div className="permissionsComponent">
               <Button variant="contained" onClick={this.toogle} margin="dense">Actualizar inventario</Button>
