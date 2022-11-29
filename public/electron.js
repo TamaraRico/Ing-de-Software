@@ -134,6 +134,20 @@ ipcMain.on('user:update', async(e, original, data)=>{
 
 //--------  FIN CONSULTAS DE EDGAR :) ------------
 
+
+//--------  INICIO CONSULTAS DE ANGELA :) ------------
+ipcMain.on('providers:findAllProviders', async (e) => {
+    try{
+        var providers = MongoDB.getCollection('providers')
+        var p = await Providers.fetchProviders(providers)
+        mainWindow.webContents.send('providers:getAllProviders', JSON.stringify(p))
+    }catch(e){
+        console.log(e)
+    }
+})
+
+//--------  FIN CONSULTAS DE ANGELA :) ------------
+
 //--------  INICIO CONSULTAS DE ADRIAN :) ------------
 ipcMain.on('product:getByBarcode', async(e, product) => {
     var products = MongoDB.getCollection('products');

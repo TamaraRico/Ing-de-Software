@@ -2,7 +2,7 @@ import React from "react";
 import Menu from "../menuComponent/menu"
 import AddProvider from '../addProviderComponent/addProvider';
 import { Grid } from "@mui/material";
-import {StickyTable} from "./inventoryTable";
+import {StickyTable} from "./providersTable";
 
 function getStoresProviders() {
   return new Promise((resolve, reject) => {
@@ -15,7 +15,7 @@ function getStoresProviders() {
   });
 }
 
-class storesProviders extends React.Component {
+class StoresProviders extends React.Component {
   constructor(props){
     super(props);
 
@@ -27,7 +27,7 @@ class storesProviders extends React.Component {
   }
 
   fetchProviders() {
-    getProviders().then((data) => {
+    getStoresProviders().then((data) => {
       if (data !== "null") {
         const dataProviders = JSON.parse(data);
 
@@ -72,4 +72,4 @@ class storesProviders extends React.Component {
   }
 }
 
-export default storesProviders;
+export default StoresProviders;

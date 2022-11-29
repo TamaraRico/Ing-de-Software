@@ -7,6 +7,7 @@ import POS from './posComponent/main';
 import Admin from './adminComponent/admin';
 import Inventory from './adminComponent/inventoryComponent/inventario';
 import Employee from './adminComponent/employeeComponent/employee';
+import StoresProviders from './adminComponent/providerComponent/providers';
 import InventoryPos from './posComponent/inventarioPos';
 import DeleteSales from './adminComponent/deleteSalesComponent/index';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
@@ -23,6 +24,7 @@ root.render(
             <Route path='/admin' element={<Admin />} />  
             <Route path='/inventory' element={<Inventory/>} />  
             <Route path='/employee' element={<Employee/>}/>
+            <Route path='/providers' element={<StoresProviders/>}/>
             <Route path='/inventoryPos' element={<InventoryPos/>}/>
             <Route path='/deleteSales' element={<DeleteSales />} /> 
           </Routes>
