@@ -415,7 +415,7 @@ class ProductsComponent extends React.Component {
     return (
       <div className="productsComponent">
 		<h2>VENTA AL CLIENTE</h2>
-        <TextField
+        <TextField fullWidth
           id="barcode_tosubtotal"
           label="Codigo de barras"
           variant="filled"
