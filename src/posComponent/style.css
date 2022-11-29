@@ -2,14 +2,42 @@
     margin: 28px;
     border: 8px solid rgb(181, 131, 141);
     border-radius: 23px;
-    padding: 10px
+    padding: 10px;
+    text-align:center;
+}
+
+.internalActions h2{
+    color: rgb(181, 131, 141);
+    margin: 10px;
+}
+
+.internalActions button{
+    color: white;
+    background-color: rgb(181, 131, 141);
+    margin: 10px;
+    padding: 10px;
+    font-weight:bold;
 }
 
 .sellActions {
     margin: 28px;
     border: 8px solid rgb(109, 104, 117);
     border-radius: 23px;
-    padding: 10px
+    padding: 20px;
+    text-align:center;
+}
+
+.sellActions h2{
+    color: rgb(109, 104, 117);
+    margin: 10px;
+}
+
+.sellActions button{
+    color: white;
+    background-color: #FFB4A2;
+    margin: 10px;
+    padding: 10px;
+    font-weight:bold;
 }
 
 .productsComponent {
@@ -18,6 +46,82 @@
     border: 8px solid rgb(91, 91, 91);
     border-radius: 23px;
     padding: 32px;
+}
+
+.productsComponent h2{
+    color: rgb(91, 91, 91);
+    margin-bottom: 20px;
+}
+
+.productsComponent h2{
+    color: rgb(91, 91, 91);
+    margin-bottom: 20px;
+}
+
+.productsComponent table td{
+    padding: 20px;
+    text-align: right;
+}
+
+#barcode_tosubtotal{
+    /*width: 700px;*/
+    display:flex;
+    width: 100%;
+}
+
+table, #products{
+    width: 100%;
+}
+
+#products{
+    border-collapse:collapse;
+    border: rgb(91, 91, 91) 3px solid;
+    margin-top: 20px;
+    color: rgb(91, 91, 91);
+}
+
+#products thead th{
+    background-color: rgb(91, 91, 91);
+    color: white;
+    padding: 10px;
+}
+
+#products tbody{
+    color: rgb(91, 91, 91);
+    padding: 10px;
+    empty-cells: show;
+    min-height:500px;
+}
+
+#products td{
+    border-collapse:collapse;
+    border-left: rgb(91, 91, 91) 2px solid;
+}
+
+#total {
+    color: rgb(91, 91, 91);
+}
+
+#total b{
+    color: #FFB4A2;
+}
+
+b {
+    color: rgb(181, 131, 141);;
+}
+
+.productsComponent button{
+    color: white;
+    background-color: #FFB4A2;
+    padding: 20px;
+    font-weight:bold;
+}
+
+.permissionsComponent button{
+    color: white;
+    background-color: rgb(181, 131, 141);
+    margin-top: 30px;
+    font-weight:bold;
 }
 
 #delete-icon {
