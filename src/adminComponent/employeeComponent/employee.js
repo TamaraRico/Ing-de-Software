@@ -1,15 +1,15 @@
 import React from "react";
 import "./employee.css";
-import Button from "@mui/material/Button";
 import Menu from "../menuComponent/menu";
 
 import { Grid } from "@mui/material";
-import {StickyTable} from "./employeeTable";
-
-import ModalAdd from './modalAdd';
+import { StickyTable } from "./employeeTable";
+import ModalAdd from "./modalAdd";
 import ModalEdit from "./modalEdit";
 import ModalDelete from "./modalDelete";
 import ModalPass from "./modalPass";
+
+import { EmployeeStadistics } from "../stadisticsComponent/employeeStadistics";
 
 function getUsers() {
   return new Promise((resolve, reject) => {
@@ -21,7 +21,7 @@ function getUsers() {
   });
 }
 
-export default class Employee extends React.Component {
+class Employee extends React.Component {
   constructor(props) {
     super(props);
 
@@ -37,7 +37,7 @@ export default class Employee extends React.Component {
       if (data !== "null") {
         const dataUser = JSON.parse(data);
 
-        var newUsers = this.state.users.concat(dataUser)
+        var newUsers = this.state.users.concat(dataUser);
 
         var dropAdmin = new Array();
 
@@ -47,13 +47,19 @@ export default class Employee extends React.Component {
           }
         }
 
-        this.setState({
-          users : dropAdmin
-        }, () => {
-          console.log("Datos desde inventario.js: ", this.state.users)
-        });
+        this.setState(
+          {
+            users: dropAdmin,
+          },
+          () => {
+            console.log("Datos desde inventario.js: ", this.state.users);
+          }
+        );
       } else {
-        throw console.error("no hay productos en la base de datos", this.state.users);
+        throw console.error(
+          "no hay productos en la base de datos",
+          this.state.users
+        );
       }
     });
   }
@@ -63,29 +69,40 @@ export default class Employee extends React.Component {
   }
 
   render() {
-      return (
-        <div className="view-container">
-          <Menu />
-          <div id="main">
-            <h1>Empleado</h1>
-            <h7><b>INICIO/</b>Empleado</h7>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={12}>
-                <div class="card">
-                  <ModalAdd />
-                  <ModalDelete/>
-                  <ModalEdit/>
-                  <ModalPass/>
-                </div>
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <div class="card">
-                  {this.state.users.length > 0 ? <StickyTable data={this.state.users}/> : null}
-                </div>
-              </Grid>
+    return (
+      <div className="view-container">
+        <Menu />
+        <div id="main">
+          <h1>Empleado</h1>
+          <h7>
+            <b>INICIO/</b>Empleado
+          </h7>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={8}>
+              <div class="card">
+                <EmployeeStadistics />
+              </div>
             </Grid>
-          </div>
+            <Grid item xs={12} md={4}>
+              <div class="card">
+                <ModalAdd />
+                <ModalDelete />
+                <ModalEdit />
+                <ModalPass />
+              </div>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <div class="card">
+                {this.state.users.length > 0 ? (
+                  <StickyTable data={this.state.users} />
+                ) : null}
+              </div>
+            </Grid>
+          </Grid>
         </div>
-     );
+      </div>
+    );
   }
 }
+
+export default Employee;
