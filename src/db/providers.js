@@ -97,12 +97,22 @@ const findOneProviderByCode = async (providers, providersCode) => {
             return prov
         } else{
             console.log(`No listings found with the barcode '${providersCode}'`);
+            return prov
         }
     } catch (err) {
         console.log(err)
         throw err;
     }
 }
+
+const deleteProviderByCode = async (providers, providersCode) => {
+    try{
+        const res = await providers.deleteOne({code : providersCode})
+    }catch(e){
+        throw e
+    }
+}
+
 
 //Eliminar un solo producto
 const deleteOneProviderByName = async (providers, nameOfProvider) => {
@@ -159,6 +169,7 @@ module.exports = {insertProvider,
     findAllProviders,
     findOneProviderByCode,
     deleteOneProviderByName,
+    deleteProviderByCode,
     deleteMultipleProvidersByName,
     getProductByCode, 
     fetchProviders};

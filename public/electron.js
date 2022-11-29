@@ -152,16 +152,21 @@ ipcMain.on('providers:searchOne', async (e, nameOfProvider) => {
     mainWindow.webContents.send('providers:get', JSON.stringify(p))
 })
     
-ipcMain.on('providers:add', async (e, list) => {
+ipcMain.on('provider:add', async (e, list) => {
     var providers = MongoDB.getCollection('providers')
-    var p = await Products.insertProvider(providers, list)
+    var p = await Providers.insertProvider(providers, list)
     mainWindow.webContents.send('providers:get', JSON.stringify(p))
 })
 
-ipcMain.on('providers:getByCode', async(e, codeOfProvider) => {
+ipcMain.on('provider:getByCode', async(e, codeOfProvider) => {
     var providers = MongoDB.getCollection('providers');
-    var p = await Products.getProductByBarcode(providers, codeOfProvider);
-    mainWindow.webContents.send('providers:getOne', JSON.stringify(p))
+    var p = await Providers.findOneProviderByCode(providers, codeOfProvider);
+    mainWindow.webContents.send('provider:getOne', JSON.stringify(p))
+})
+
+ipcMain.on('provider:deleteByCode', async (e, codeOfProvider) => {
+    var providers = MongoDB.getCollection('providers')
+    await Providers.deleteProviderByCode(providers, codeOfProvider)
 })
 
 //--------  FIN CONSULTAS DE ANGELA :) ------------

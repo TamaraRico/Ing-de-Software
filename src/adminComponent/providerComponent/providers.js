@@ -1,6 +1,7 @@
 import React from "react";
 import Menu from "../menuComponent/menu"
-import AddProvider from '../addProviderComponent/addProvider';
+import { AddProvider, DeleteProvider } from '../addProviderComponent/addProvider';
+
 import { Grid } from "@mui/material";
 import {StickyTable} from "./providersTable";
 
@@ -58,6 +59,7 @@ class StoresProviders extends React.Component {
             <Grid item xs={12} md={12}>
               <div class="card">
                 <AddProvider />
+                <DeleteProvider />
               </div>
             </Grid>
             <Grid item xs={12} md={12}>
