@@ -59,7 +59,7 @@ class Inventory extends React.Component {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <div class="card">
-                <table align="center">
+                <table align="center" width="100%">
                   <tr align="center">
                     <td align="center"><AddProduct /></td>
                     <td align="center"><EditProduct /></td>
