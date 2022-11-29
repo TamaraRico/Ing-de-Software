@@ -87,6 +87,13 @@ table, #products{
 #products tbody{
     color: rgb(91, 91, 91);
     padding: 10px;
+    empty-cells: show;
+    min-height:500px;
+}
+
+#products td{
+    border-collapse:collapse;
+    border-left: rgb(91, 91, 91) 2px solid;
 }
 
 #total {
@@ -104,6 +111,7 @@ b {
 .productsComponent button{
     color: white;
     background-color: #FFB4A2;
+    padding: 20px;
     font-weight:bold;
 }
 
