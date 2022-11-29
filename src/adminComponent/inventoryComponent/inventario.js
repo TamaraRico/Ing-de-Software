@@ -1,6 +1,8 @@
 import React from "react";
 import Menu from "../menuComponent/menu"
 import AddProduct from '../addProductComponent/addProduct';
+import EditProduct from '../editProductComponent/editProduct';
+import DeleteProduct from '../deleteProductComponent/deleteProduct';
 import { Grid } from "@mui/material";
 import {StickyTable} from "./inventoryTable";
 
@@ -55,9 +57,15 @@ class Inventory extends React.Component {
           <h1>INVENTARIO</h1>
           <h7><b>INICIO/</b>Inventario</h7>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={12}>
+            <Grid item xs={12} md={6}>
               <div class="card">
-                <AddProduct />
+                <table align="center" width="100%">
+                  <tr align="center">
+                    <td align="center"><AddProduct /></td>
+                    <td align="center"><EditProduct /></td>
+                    <td align="center"><DeleteProduct /></td>
+                  </tr>
+                </table>
               </div>
             </Grid>
             <Grid item xs={12} md={12}>
