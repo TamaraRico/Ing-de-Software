@@ -73,4 +73,30 @@ const insertSale = async (sells,venta) => {
     }
 }
 
-module.exports = {fetchSales, fetchSalesByDate, deleteSale, deleteSaleByDate, insertSale};
+const fetchSellsByEmployeeAndDate = async (sells, employee, start, end) => {
+    try{
+        var query = {
+            employee: employee,
+            factured_date: {
+                $gte: start,
+                $lte: end
+            }
+        }
+        const res = await sells.find(query, {})
+
+        var aux = []
+        while(await res.hasNext()) {
+            const doc = await res.next();
+            doc._id = (doc._id).toString()
+            doc.purchased_products = (doc.purchased_products).length
+            doc.factured_date = new Date(doc.factured_date).toISOString()
+            aux.push(doc)
+        }
+    }catch (e) {
+        throw e;
+    }
+
+    return aux
+}
+
+module.exports = {fetchSales, fetchSalesByDate, deleteSale, deleteSaleByDate, insertSale, fetchSellsByEmployeeAndDate};

@@ -1,71 +1,34 @@
-// librerias importadas
-import React from 'react';
-import Portal from './portal';
-import {Button , Box}from '@mui/material';
+import * as React from "react";
+import Button from "@mui/material/Button";
 import swal from 'sweetalert';
-// Componentes usados
-import UsernameTextField from './formComponent/UsernameTextField'
+
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Grid } from "@mui/material";
+
 // Variables para los datos del usuario
-var user = null;
-var exit = null;
 
-class ModalDelete extends React.Component{
-    // 
-    state = {
-        user: "",
-        pass: "",
-        entry: "",
-        out: "",
-    }
-    
-    userState = (childData) =>{
-        this.setState({user: childData})
-    }
-
-    render(){
-        const { children, toogle, active } = this.props;
-
-        exit = toogle;
-        user = this.state.user;
-    
-        return (
-            <Portal>
-                {active && (
-                    <div style={styles.wrapper}>
-                        <div style={styles.window}>
-                            <Box>
-                                <ButtonExit/>
-                                <div>{children}</div>
-                                <div>
-                                    <UsernameTextField parentCallback = {this.userState}/>
-                                </div>
-                                <div>
-                                    <EditButton/>
-                                </div>
-                            </Box>
-                        </div>
-                    </div>
-                )}
-            </Portal>
-        );
-    }
-}
-
-class ButtonExit extends React.Component{
-    render(){
-        return(
-            <Button 
-            variant="text"
-            margin="dense"
-            onClick={exit}>
-            X
-            </Button>
-        )
-    }
-}
-
-class EditButton extends React.Component{
-    validate(){
+export default function ModalDelete() {
+    const [open, setOpen] = React.useState(false);
+  
+    const handleClickOpen = (event) => {
+      event.preventDefault();
+      setOpen(true);
+    };
+  
+    const handleClose = (event) => {
+      event.preventDefault();
+      setOpen(false);
+    };
+  
+    const handleDeleteEmployee = (event) => {
+        event.preventDefault();
+        var user = window.document.getElementById('name').value;
+        console.log(user)
         if((user != '')) {
             window.api.send('user:load',user);
             window.api.receive('user:get', (data) => {     
@@ -81,11 +44,11 @@ class EditButton extends React.Component{
                                 icon: 'success',
                                 confirmButtonText: 'Cerrar'
                             })
-                            exit()
                             window.api.send('user:fetch');
                             window.api.receive('user:fetch',  async (data) => {
-                         
+                                setOpen(false);
                             });
+                            setOpen(false);
                         } else {
                             swal({
                                 title: 'Error!',
@@ -112,46 +75,30 @@ class EditButton extends React.Component{
                 confirmButtonText: 'Cerrar'
             })
         }
-    }
-    
-    render(){
-        return(
-            <Button 
-            variant="contained"
-            onClick={this.validate}
-            margin="dense">
-            Elimiar Usuario
-            </Button>
-        )
-    }
+    }   
+  
+    return (
+      <div>
+        <Button variant="outlined" onClick={handleClickOpen}>
+          Eliminar Empleado
+        </Button>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Eliminar a un Empleado</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Verificar correctamente todos los campos
+            </DialogContentText>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <TextField fullWidth autoFocus margin="dense" id="name" label="Nombre" type="text" variant="filled" />
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cerrar</Button>
+            <Button onClick={handleDeleteEmployee}>Eliminar</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
 }
-
-const styles = {
-    wrapper: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        heigt: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    window: {
-        position: 'relative',
-        background: '#fff',
-        borderRadius: 5,
-        padding: 15,
-        boxShadow: '2px 2px 10px rgba(0,0,0,0.3)',
-        zIndex: 10,
-        minWidth: 320,
-    },
-    closeBtn: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-    }
-}
-
-export default ModalDelete;
