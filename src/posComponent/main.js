@@ -11,10 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {faDeleteLeft}  from "@fortawesome/free-solid-svg-icons";
 
-//const ThermalPrinter = require('node-thermal-printer').printer;
-//const PrinterTypes = require('node-thermal-printer').types;
-//const printer = remote.require('@thiagoelg/node-printer');
-
 
 library.add(faDeleteLeft);
 
@@ -88,7 +84,7 @@ function sellLoop(recibido){
 		Swal.fire({
 			title: 'COMPRA',
 		  	icon: 'success',
-		  	html:'<div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input priceType" value="0" id="mxnPay" name="mailId[]"><label class="custom-control-label" for="mxnPay">MXN $' + Math.abs(window.change) + '</label></div> <div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input priceType" value="1" name="mailId[]" id="dllsPay"><label class="custom-control-label" for="dllsPay">DLLS $' + (Math.abs(window.change) / 19.25).toFixed(2) + '</label></div>' +
+		  	html:'<div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input priceType" value="0" id="mxnPay" name="mailId[]"><label class="custom-control-label" for="mxnPay">MXN $' + Math.abs(window.change) + '</label></div> <div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input priceType" value="1" name="mailId[]" id="dllsPay"><label class="custom-control-label" for="dllsPay">DLLS $' + Math.abs(window.change) / 19.25 + '</label></div>' +
 			  	'<br><div class="md-form md-outline"><input type="text" id="totalPrice" class="form-control totalPrice"><label for="totalPrice">Cantidad recibida</label></div>' +
 			  	'<br>',
 		  	showCancelButton: true,
@@ -134,98 +130,6 @@ function sellLoop(recibido){
 		})
 	})
 }
-
-/*
-  //FUNCIONES PARA GENERAR LOS RECIBOS PARA LA IMPRESORA, DEBIDO A LA CONFIGURACION DE ELECTRON + REACT, DEBEMOS REALIZAR MAS CAMBIOS PARA PODER IMPLEMENTARLA CORRECTAMENTE, ASI QUE SOLO DEJARE REFLEJADAS LAS FUNCIONES
-
-function getAllProductsFromListToReceiptTable(printerData, products){
-  products.map((p) => {
-    printerData.tableCustom([
-      {text: p.quantity, align:'LEFT'},
-      {text: p.name, align:'CENTER'},
-      {text: p.price, align:'RIGHT'},
-    ])
-  })
-}
-
-async function generateReceiptConfig(subtotal, total, received, change, products){
-  const actualDate = "Fecha/Hora:" + new Date().toLocaleString()
-
-  let printerData = new ThermalPrinter({
-    type: PrinterTypes.EPSON,
-    removeSpecialCharacters : false,
-    lineCharacter: "=",
-    width : 40
-  })
-
-  printerData.setTypeFontB()
-  printerData.alignCenter()
-  //await printerData.printImage('icono')
-  printerData.newLine()
-  printerData.newLine()
-
-  printerData.setTextSize(1,2)
-  printerData.println("Papeleria Pincelin")
-
-  printerData.setTextSize(0,0)
-  printerData.println('Calle Alamo #694 Fracc. Las Californias')
-  
-  printerData.println('Tijuana, BC CP: 2240')
-
-  printerData.println('RFC: AOPA7110232L4')
-
-  printerData.println(actualDate.toString())
-
-  printerData.newLine()
-
-  printerData.tableCustom([                                       // Prints table with custom settings (text, align, width, cols, bold)
-    { text:"", align:"LEFT"},
-    { text:"Descripcion", align:"CENTER",bold:true },
-    { text:"Precio", align:"RIGHT"}
-  ])
-    
-  printerData.drawLine()
-  getAllProductsFromListToReceiptTable(printerData, products)
-  printerData.drawLine()
-
-  printerData.newLine()
-  printerData.alignRight()
-  printerData.println('SUBTOTAL: ' + subtotal)
-  printerData.println('TOTAL: ' + total)
-  printerData.println('RECIBIDO: ' + received)
-  printerData.println('CAMBIO: ' + change)
-
-  printerData.newLine()
-  printerData.alignCenter()
-  printerData.println("GRACIAS POR TU PREFERENCIA")
-
-  for(let i = 0; i < 5; i++){
-    printerData.println()
-  }
-
-  return printerData
-}
-
-async function generateInvoice(intern, result, user, change, currency, products){
-  return new Promise((resolve, reject) => {
-    generateReceiptConfig(result, result ,parseInt(user).toFixed(2),change.toString(), products).then((printerData) => {
-      printer.printDirect({
-        data: printerData.getBuffer(),
-        printer: 'GTP581 Printer',
-        type: 'RAW',
-        success: function(jobID){
-            console.log("printer Job:", jobID);
-            printerData.clear();
-            resolve(1)
-        },
-        error: function(err){
-            reject(-1)
-        }
-      })
-    })
-  })
-}
-*/
 
 class POS extends React.Component {
   render() {
@@ -393,7 +297,7 @@ class ProductsComponent extends React.Component {
     Swal.fire({
 		title: 'COMPRA',
       icon: 'success',
-      html:'<div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input priceType" value="0" id="mxnPay" name="mailId[]"><label class="custom-control-label" for="mxnPay">MXN $' + this.state.total + '</label></div> <div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input priceType" value="1" name="mailId[]" id="dllsPay"><label class="custom-control-label" for="dllsPay">DLLS $' + (this.state.total / 19.25).toFixed(2) + '</label></div>' +
+      html:'<div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input priceType" value="0" id="mxnPay" name="mailId[]"><label class="custom-control-label" for="mxnPay">MXN $' + this.state.total + '</label></div> <div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input priceType" value="1" name="mailId[]" id="dllsPay"><label class="custom-control-label" for="dllsPay">DLLS $' + this.state.total / 19.25 + '</label></div>' +
           '<br><div class="md-form md-outline"><input type="text" id="totalPrice" class="form-control totalPrice"><label for="totalPrice">Cantidad recibida</label></div>' +
           '<br>',
       showCancelButton: true,
@@ -514,10 +418,10 @@ class ProductsComponent extends React.Component {
         <TextField
           id="barcode_tosubtotal"
           label="Codigo de barras"
-          variant="outlined"
+          variant="filled"
           onKeyDown={this.handleChangeInput}
         ></TextField>
-        <table>
+        <table id="products">
           <thead>
             <tr>
               <th>CODIGO DE BARRAS</th>
@@ -538,9 +442,17 @@ class ProductsComponent extends React.Component {
           </tbody>
         </table>
         <div>
-          <h1>TOTAL A PAGAR: $<b>{this.state.total + " MXN"}</b></h1>
-		  <h1><b>{(this.state.total / 19.25).toFixed(2) + " DLLS"}</b></h1>
-          <Button variant="contained" onClick={this.handleTotalSell}>FINALIZA COMPRA</Button>
+          <table>
+            <tr>
+              <td>
+                <h1 id="total">TOTAL A PAGAR: $ <b>{this.state.total + " MXN"}</b></h1>
+                <h3><b>{(this.state.total / 19.25).toFixed(2) + " DLLS"}</b></h3>
+              </td>
+              <td>
+                <Button variant="contained" onClick={this.handleTotalSell}>FINALIZA COMPRA</Button>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     );
@@ -670,7 +582,7 @@ class PermissionsComponent extends React.Component{
   render(){
     
       return(
-          <div>
+          <div className="permissionsComponent">
               <Button variant="contained" onClick={this.toogle} margin="dense">Actualizar inventario</Button>
               <div>
                 <Modal active ={this.state.active} toogle = {this.toogle}>
