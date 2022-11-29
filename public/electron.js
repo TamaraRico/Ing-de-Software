@@ -134,6 +134,43 @@ ipcMain.on('user:update', async(e, original, data)=>{
 
 //--------  FIN CONSULTAS DE EDGAR :) ------------
 
+
+//--------  INICIO CONSULTAS DE ANGELA :) ------------
+ipcMain.on('providers:findAllProviders', async (e) => {
+    try{
+        var providers = MongoDB.getCollection('providers')
+        var p = await Providers.fetchProviders(providers)
+        mainWindow.webContents.send('providers:getAllProviders', JSON.stringify(p))
+    }catch(e){
+        console.log(e)
+    }
+})
+
+ipcMain.on('providers:searchOne', async (e, nameOfProvider) => {
+    var providers = MongoDB.getCollection('products')
+    var p = await Providers.findOneProviderByName(providers, nameOfProvider)
+    mainWindow.webContents.send('providers:get', JSON.stringify(p))
+})
+    
+ipcMain.on('provider:add', async (e, list) => {
+    var providers = MongoDB.getCollection('providers')
+    var p = await Providers.insertProvider(providers, list)
+    mainWindow.webContents.send('providers:get', JSON.stringify(p))
+})
+
+ipcMain.on('provider:getByCode', async(e, codeOfProvider) => {
+    var providers = MongoDB.getCollection('providers');
+    var p = await Providers.findOneProviderByCode(providers, codeOfProvider);
+    mainWindow.webContents.send('provider:getOne', JSON.stringify(p))
+})
+
+ipcMain.on('provider:deleteByCode', async (e, codeOfProvider) => {
+    var providers = MongoDB.getCollection('providers')
+    await Providers.deleteProviderByCode(providers, codeOfProvider)
+})
+
+//--------  FIN CONSULTAS DE ANGELA :) ------------
+
 //--------  INICIO CONSULTAS DE ADRIAN :) ------------
 ipcMain.on('product:getByBarcode', async(e, product) => {
     var products = MongoDB.getCollection('products');
