@@ -79,7 +79,7 @@ export default function ModalDelete() {
   
     return (
       <div>
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Button variant="outlined" onClick={handleClickOpen} id="outlined-buttons">
           Eliminar Empleado
         </Button>
         <Dialog open={open} onClose={handleClose}>

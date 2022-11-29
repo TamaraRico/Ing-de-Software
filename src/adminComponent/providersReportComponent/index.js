@@ -118,8 +118,8 @@ export default class ProvidersReport extends React.Component {
   
   render(){
     return(
-      <div class = "container">
-        <Button variant="contained" size="large" style={{wordbreak: 'break-all'}} onClick={this.generateReport}>Proveedores</Button>
+      <div className= "test">
+        <Button variant="contained" size="large" style={{wordbreak: 'break-all'}} onClick={this.generateReport} id="buttons">Proveedores</Button>
       </div>
     );
   }

@@ -88,7 +88,7 @@ export default function DeleteProduct() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={handleClickOpen} id="outlined-buttons">
         Eliminar Producto
       </Button>
       <Dialog open={open} onClose={handleClose}>

@@ -60,7 +60,7 @@ export function AddProvider() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={handleClickOpen} id="outlined-buttons">
         Agregar Proveedor
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -137,7 +137,7 @@ export function DeleteProvider() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={handleClickOpen} id="outlined-buttons">
         Eliminar Proveedor
       </Button>
       <Dialog open={open} onClose={handleClose}>

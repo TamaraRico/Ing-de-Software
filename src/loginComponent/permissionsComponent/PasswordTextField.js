@@ -8,7 +8,7 @@ class PasswordTextField extends React.Component{
     };
     
     render(){
-      return( <TextField 
+      return( <TextField fullWidth
                 id="password" 
                 label="Contrasena" 
                 type="password"              

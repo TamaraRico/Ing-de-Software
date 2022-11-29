@@ -86,7 +86,7 @@ export default function AddProduct() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={handleClickOpen} id="outlined-buttons">
         Agregar Producto
       </Button>
       <Dialog open={open} onClose={handleClose}>

@@ -95,7 +95,7 @@ export default function ModalAdd() {
   
     return (
       <div>
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Button variant="outlined" onClick={handleClickOpen} id="outlined-buttons">
           Agregar Empleado
         </Button>
         <Dialog open={open} onClose={handleClose}>

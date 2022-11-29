@@ -86,7 +86,7 @@ export default function ModalEdit() {
   
     return (
       <div>
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Button variant="outlined" onClick={handleClickOpen} id="outlined-buttons">
           Editar Empleado
         </Button>
         <Dialog open={open} onClose={handleClose}>

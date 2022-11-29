@@ -58,9 +58,15 @@ class StoresProviders extends React.Component {
           <Grid container spacing={2}>
             <Grid item xs={12} md={12}>
               <div class="card">
-                <AddProvider />
-                <DeleteProvider />
+                <h2>ACCIONES DE PROVEEDOR</h2><br/>
+                <table align="center" width="100%">
+                  <tr align="center">
+                    <td align="center"><AddProvider /></td>
+                    <td align="center"><DeleteProvider /></td>
+                  </tr>
+                </table>
               </div>
+              
             </Grid>
             <Grid item xs={12} md={12}>
               <div class="card">

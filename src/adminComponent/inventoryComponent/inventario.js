@@ -57,8 +57,9 @@ class Inventory extends React.Component {
           <h1>INVENTARIO</h1>
           <h7><b>INICIO/</b>Inventario</h7>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={12}>
               <div class="card">
+                <h2>ACCIONES DE INVENTARIO</h2><br />
                 <table align="center" width="100%">
                   <tr align="center">
                     <td align="center"><AddProduct /></td>

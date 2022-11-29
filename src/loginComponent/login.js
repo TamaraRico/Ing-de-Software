@@ -1,11 +1,10 @@
 import React from "react";
-import {Button , Box} from '@mui/material';
-// import Swal from 'sweetalert2'
+import {Button } from '@mui/material';
 import './App.css';
 import swal from 'sweetalert';
-
 import UsernameTextField from './permissionsComponent/UsernameTextField';
 import PasswordTextField from './permissionsComponent/PasswordTextField';
+import {Grid} from '@mui/material'
 
 var user = null;
 var pass = null;
@@ -32,25 +31,26 @@ class Login extends React.Component {
     return(
       <div className= "login-component">
         <div className="login-container">
-            <div className="textField-container">
-              <div className="element">
-              <div id="content">
-                <Box>
-                  <h1 position='center'>Pincelin</h1>
-                  <div>
-                    <UsernameTextField parentCallback={this.userState} />
-                  </div>
-                  <div>
-                    <PasswordTextField parentCallback={this.passState} />
-                  </div>
-                  <div>
-                    <LoginButton />
-                  </div>
-                </Box>
-              </div>
-              </div>
-            </div>
+          <div className="element">
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={12}>
+                <h1 id="title">Papeleria Pincelin</h1>
+              </Grid>
+              <Grid item xs={12} md={12} id="parent-img">
+                <img id="image" src={require('../res/pincelin-logo.png')}></img>
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <UsernameTextField parentCallback={this.userState} />
+              </Grid> 
+              <Grid item xs={12} md={12}>
+                <PasswordTextField parentCallback={this.passState} />
+              </Grid> 
+              <Grid item xs={12} md={12}>
+                <LoginButton />
+              </Grid>
+            </Grid>
           </div>
+        </div>
         <svg viewBox="0 0 1920 643" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fillRule="evenodd" clipRule="evenodd" d="M0 0L107.2 76.5476C212.8 153.095 427.2 306.19 640 306.19C852.8 306.19 1067.2 153.095 1280 183.714C1492.8 214.333 1707.2 428.667 1812.8 535.833L1920 643H1812.8C1707.2 643 1492.8 643 1280 643C1067.2 643 852.8 643 640 643C427.2 643 212.8 643 107.2 643H0V0Z" fill="#FFB4A2"/>
         </svg>
@@ -145,7 +145,7 @@ class LoginButton extends React.Component{
   }
   render(){
     return(
-      <Button variant="contained" onClick={this.validate}> Iniciar Sesion </Button>
+      <Button fullWidth variant="contained" onClick={this.validate} id="buttons"> Iniciar Sesion </Button>
     )
   }
 }

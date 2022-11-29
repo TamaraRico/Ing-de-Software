@@ -85,10 +85,21 @@ class Employee extends React.Component {
             </Grid>
             <Grid item xs={12} md={4}>
               <div class="card">
-                <ModalAdd />
-                <ModalDelete />
-                <ModalEdit />
-                <ModalPass />
+                <h2>ACCIONES DE EMPLEADOS</h2><br/>
+                <table align="center" width="100%">
+                  <tr align="center">
+                    <td align="center"><ModalAdd /></td>
+                  </tr>
+                  <tr align="center">
+                  <td align="center"><ModalDelete /></td>
+                  </tr>
+                  <tr align="center">
+                  <td align="center"><ModalEdit /></td>
+                  </tr>
+                  <tr align="center">
+                  <td align="center"><ModalPass /></td>
+                  </tr>
+                </table>
               </div>
             </Grid>
             <Grid item xs={12} md={12}>

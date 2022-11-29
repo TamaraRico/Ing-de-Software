@@ -8,7 +8,7 @@ class UsernameTextField extends React.Component{
   };
   
   render(){
-    return( <TextField 
+    return( <TextField fullWidth
               id="username" 
               label="Usuario" 
               variant="outlined"

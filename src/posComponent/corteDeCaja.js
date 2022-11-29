@@ -21,7 +21,7 @@ function getProduct(barcode){
 	})
 }
 
-function corteDeCajaEnX(user){//pasar empleado activo como parametro
+export function corteDeCajaEnX(user){//pasar empleado activo como parametro
     var elementosComprados = []
     let startTime = user.entrada;
     let stopTime  = user.salida;    
@@ -73,7 +73,7 @@ const elementsByCategory = [
     }
 ]
 
-function corteDeCajaEnZ(user){
+export function corteDeCajaEnZ(user){
     var elementosComprados = []
     let startTime = user.entrada;
     let stopTime  = user.salida;
@@ -116,5 +116,3 @@ function corteDeCajaEnZ(user){
     return elementosComprados;
     // generar recibo
 }
-
-module.exports = {corteDeCajaEnX, corteDeCajaEnZ};

@@ -68,8 +68,8 @@ export function StickyTable(data) {
       createData(
         employee._id,
         employee.name,
-        new Date(employee.entry),
-        new Date(employee.out),
+        new Date(employee.entrada),
+        new Date(employee.salida),
         new Date(employee.checkin),
         new Date(employee.checkout)
       )

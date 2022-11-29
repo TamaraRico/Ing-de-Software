@@ -72,7 +72,7 @@ export default function ModalPass() {
   
     return (
       <div>
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Button variant="outlined" onClick={handleClickOpen} id="outlined-buttons">
           Cambiar contrasena Empleado
         </Button>
         <Dialog open={open} onClose={handleClose}>

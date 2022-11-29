@@ -168,7 +168,7 @@ export default function EditProduct() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={handleClickOpen} id="outlined-buttons">
         Editar Producto
       </Button>
       <Dialog open={open} onClose={handleClose}>

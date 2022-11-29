@@ -353,7 +353,7 @@ export default function DeleteSales() {
             shrink: true,
           }}
         />
-        <Button variant="contained" onClick={fetchEntreFechas}>Buscar</Button>
+         &nbsp; &nbsp;<Button variant="contained" onClick={fetchEntreFechas} id="buttons">Buscar</Button>
         <Paper sx={{ width: '100%', mb: 2 }}>
 
           <EnhancedTableToolbar 

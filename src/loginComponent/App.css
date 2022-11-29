@@ -20,15 +20,50 @@
   position: relative;
 }
 
+#title {
+  font-family: Dancing Script;
+  font-size: 3vw;
+  font-weight: bold;
+  text-align: center;
+}
+
+#image {
+  width: 15vw;
+  height: 25vh;
+}
+
+#parent-img {
+  display: flex;
+  justify-content: center;
+}
+
 .element {
   display: inline-grid;
   margin: 20px;
   position: absolute;
-  left: 5vw;
 }
 
 svg{
   position: absolute;
   z-index: 1;
   bottom:  0;
+}
+
+#buttons {
+  background-color: #6d6875;
+  height: 40px;
+  font-size: 1.5vw;
+  font-family: Poppins;
+
+}
+
+#outlined-buttons {
+  color: #6d6875;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  width: 3vw;
 }
