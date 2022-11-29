@@ -146,6 +146,24 @@ ipcMain.on('providers:findAllProviders', async (e) => {
     }
 })
 
+ipcMain.on('providers:searchOne', async (e, nameOfProvider) => {
+    var providers = MongoDB.getCollection('products')
+    var p = await Providers.findOneProviderByName(providers, nameOfProvider)
+    mainWindow.webContents.send('providers:get', JSON.stringify(p))
+})
+    
+ipcMain.on('providers:add', async (e, list) => {
+    var providers = MongoDB.getCollection('providers')
+    var p = await Products.insertProvider(providers, list)
+    mainWindow.webContents.send('providers:get', JSON.stringify(p))
+})
+
+ipcMain.on('providers:getByCode', async(e, codeOfProvider) => {
+    var providers = MongoDB.getCollection('providers');
+    var p = await Products.getProductByBarcode(providers, codeOfProvider);
+    mainWindow.webContents.send('providers:getOne', JSON.stringify(p))
+})
+
 //--------  FIN CONSULTAS DE ANGELA :) ------------
 
 //--------  INICIO CONSULTAS DE ADRIAN :) ------------
